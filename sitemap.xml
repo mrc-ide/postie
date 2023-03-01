@@ -16,6 +16,51 @@
     <loc>/index.html</loc>
   </url>
   <url>
+    <loc>/reference/drop_burnin.html</loc>
+  </url>
+  <url>
+    <loc>/reference/get_prevalence.html</loc>
+  </url>
+  <url>
+    <loc>/reference/get_rates.html</loc>
+  </url>
+  <url>
     <loc>/reference/index.html</loc>
+  </url>
+  <url>
+    <loc>/reference/mortality_rate.html</loc>
+  </url>
+  <url>
+    <loc>/reference/prevalence_estimate.html</loc>
+  </url>
+  <url>
+    <loc>/reference/prevalence_format.html</loc>
+  </url>
+  <url>
+    <loc>/reference/prevalence_time_aggregate.html</loc>
+  </url>
+  <url>
+    <loc>/reference/rates_age_aggregate.html</loc>
+  </url>
+  <url>
+    <loc>/reference/rates_column_check.html</loc>
+  </url>
+  <url>
+    <loc>/reference/rates_format.html</loc>
+  </url>
+  <url>
+    <loc>/reference/rates_time_aggregate.html</loc>
+  </url>
+  <url>
+    <loc>/reference/rates_transform.html</loc>
+  </url>
+  <url>
+    <loc>/reference/tidyeval.html</loc>
+  </url>
+  <url>
+    <loc>/reference/time_transform.html</loc>
+  </url>
+  <url>
+    <loc>/reference/treatment_scaling.html</loc>
   </url>
 </urlset>
