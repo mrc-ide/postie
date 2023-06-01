@@ -9,29 +9,6 @@
 #'
 #' @export
 get_rates <- function(x, time_divisor, baseline_t, age_divisor, scaler, treatment_scaler, baseline_treatment, aggregate_age = FALSE){
-  rates <- x |>
-    rates_column_check() |>
-    rates_transform() |>
-    time_transform(time_divisor = time_divisor, baseline_t = baseline_t) |>
-    rates_time_aggregate() |>
-    rates_format(age_divisor = age_divisor) |>
-    treatment_scaling(treatment_scaler = treatment_scaler, baseline_treatment = baseline_treatment) |>
-    mortality_rate(scaler = scaler)
-
-  if(aggregate_age){
-    rates <- rates |>
-      rates_age_aggregate()
-  }
-  return(rates)
-}
-
-#' Rates input checks
-#'
-#' Checks that the required columns are present and that the age-ranges for
-#' required columns align.
-#'
-#' @param x Input data.frame
-rates_column_check <- function(x){
   cols <- colnames(x)
   if(!"timestep" %in% cols){
     stop("required column `timestep` missing")
@@ -45,92 +22,90 @@ rates_column_check <- function(x){
   if(sum(grepl("n_inc_severe", cols)) == 0){
     stop("required columns `n_inc_severe_...` missing")
   }
-  if(sum(grepl("n_age_", cols)) == 0){
-    stop("required columns `n_age_...` missing")
+  if(age_divisor < 1){
+    stop("age_divisor must be >= 1")
   }
-  clinical_cols <- cols[grepl("n_inc_clinical", cols)]
-  clinical_age_ranges <- stringr::str_split(stringr::str_replace(clinical_cols, "n_inc_clinical_", ""), "_")
-  severe_cols <- cols[grepl("n_inc_severe", cols)]
-  severe_age_ranges <- stringr::str_split(stringr::str_replace(severe_cols, "n_inc_severe_", ""), "_")
-  n_age_cols <- cols[grepl("n_age", cols)]
-  n_age_ranges <- stringr::str_split(stringr::str_replace(n_age_cols, "n_age_", ""), "_")
-  if(!identical(clinical_age_ranges, severe_age_ranges) | !identical(clinical_age_ranges, n_age_ranges)){
-    stop("Age ranges for `n_inc_clinical_...` and `n_inc_severe_...` and `n_age_...` outputs must be the same")
+  clinical_cols <- colnames(x)[grepl("inc_clinical", colnames(x))]
+  severe_cols <- colnames(x)[grepl("inc_sev", colnames(x))]
+  denominator_cols <- stringr::str_replace(clinical_cols, "_inc_clinical", "")
+
+  if(length(clinical_cols) != length(severe_cols)){
+    stop("The same age_min and age_max must be provided for clinical and severe incidence")
   }
-  return(x)
-}
-
-#' Transform rates into long form
-#'
-#' @param x Input data.frame
-rates_transform <- function(x){
-  x <- x |>
-    dplyr::select(
-      "timestep",
-      "ft",
-      dplyr::contains("n_age"),
-      dplyr::contains("n_inc_clinical"),
-      dplyr::contains("n_inc_severe"),
+  rates <- x |>
+    time_transform(
+      time_divisor = time_divisor,
+      baseline_t = baseline_t
     ) |>
-    tidyr::pivot_longer(
-      cols = -c("timestep", "ft")
+    rates_time_aggregate(
+      clinical_cols = clinical_cols,
+      severe_cols = severe_cols,
+      denominator_cols = denominator_cols
     ) |>
-    dplyr::mutate(
-      name = stringr::str_remove(.data$name, "n_inc_"),
-      name = stringr::str_remove(.data$name, "n_")
-    )
+    rates_format(
+      clinical_cols = clinical_cols,
+      severe_cols = severe_cols,
+      age_divisor = age_divisor
+    ) |>
+    treatment_scaling(
+      treatment_scaler = treatment_scaler,
+      baseline_treatment = baseline_treatment
+    ) |>
+    mortality_rate(
+      scaler = scaler
+    ) |>
+    dplyr::select(c("t", "age_lower", "age_upper", "clinical", "severe", "mortality", "n", "prop_n"))
 
-  x_names <- strsplit(x$name, "_")
-  x$name <- sapply(x_names, "[", 1)
-  x$age_lower <- as.numeric(sapply(x_names, "[", 2))
-  x$age_upper <- as.numeric(sapply(x_names, "[", 3))
-
-  x <- x |>
-    tidyr::pivot_wider(
-      id_cols = c("timestep", "age_lower", "age_upper", "ft")
-    )
-  return(x)
+  if(aggregate_age){
+    rates <- rates |>
+      rates_age_aggregate()
+  }
+  return(rates)
 }
 
 #' Aggregate rates output over t
 #'
 #' @param x Input data.frame
-rates_time_aggregate <- function(x){
-  x <- x |>
-    dplyr::summarise(
-      dplyr::across(c("clinical", "severe"), sum),
-      dplyr::across(c("age", "ft"), mean),
-      .by = c("t", "age_lower", "age_upper")
-    )
-  return(x)
+#' @param denominator_cols Names of denominators columns
+#' @inheritParams rates_format
+rates_time_aggregate <- function(x, clinical_cols, severe_cols, denominator_cols){
+  x |> dplyr::summarise(
+    dplyr::across(dplyr::all_of(clinical_cols), sum),
+    dplyr::across(dplyr::all_of(severe_cols), sum),
+    dplyr::across(dplyr::all_of(denominator_cols), mean),
+    ft = mean(.data$ft),
+    .by = "t"
+  )
 }
-
 
 #' Format rates
 #'
 #' Create rates from counts and specifies age output units
 #'
 #' @param x Input data.frame
+#' @param clinical_cols Clinical incidence column names
+#' @param severe_cols Severe incidence column names
 #' @param age_divisor Aggregation level. For example setting to 365 will return
 #' age units in years
-rates_format <- function(x, age_divisor = 365){
-  if(age_divisor < 1){
-    stop("age_divisor must be > 1")
-  }
-
-  x <- x |>
+rates_format <- function(x, clinical_cols, severe_cols, age_divisor){
+    x |>
+      dplyr::rename_with( ~ gsub("n_inc_", "", .x, fixed = TRUE), .cols = dplyr::all_of(clinical_cols)) |>
+      dplyr::rename_with( ~ gsub("n_inc_", "", .x, fixed = TRUE), .cols = dplyr::all_of(severe_cols)) |>
+      tidyr::pivot_longer(
+        cols = -c("t", "ft")
+      ) |>
+    tidyr::separate_wider_delim(.data$name, "_", names = c("name", "age_lower", "age_upper")) |>
+    tidyr::pivot_wider(id_cols = c("t", "ft", "age_lower", "age_upper"), names_from = "name", values_from = "value") |>
     dplyr::mutate(
-      prop_age = .data$age / sum(.data$age),
-      .by = "t"
-    ) |>
-    dplyr::mutate(
-      clinical = .data$clinical / .data$age,
-      severe = .data$severe / .data$age,
-      age_lower = round(.data$age_lower / age_divisor),
-      age_upper = round(.data$age_upper / age_divisor)) |>
-    dplyr::select(-"age")
-  return(x)
+      clinical = .data$clinical / .data$n,
+      severe = .data$severe / .data$n,
+      age_lower = round(as.numeric(.data$age_lower) / age_divisor),
+      age_upper = round(as.numeric(.data$age_upper) / age_divisor),
+      n = round(.data$n)
+    )|>
+    dplyr::mutate(prop_n = .data$n / sum(.data$n), .by = "t")
 }
+
 
 #' Aggregate rates output over age
 #'
@@ -138,9 +113,10 @@ rates_format <- function(x, age_divisor = 365){
 rates_age_aggregate <- function(x){
   x <- x |>
     dplyr::summarise(
-      clinical = stats::weighted.mean(.data$clinical, .data$prop_age),
-      severe  = stats::weighted.mean(.data$severe, .data$prop_age),
-      mortality = stats::weighted.mean(.data$mortality, .data$prop_age),
+      clinical = stats::weighted.mean(.data$clinical, .data$prop_n),
+      severe  = stats::weighted.mean(.data$severe, .data$prop_n),
+      mortality = stats::weighted.mean(.data$mortality, .data$prop_n),
+      n = sum(.data$n),
       .by = "t"
     )
   return(x)

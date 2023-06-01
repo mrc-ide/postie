@@ -16,3 +16,18 @@ status](https://codecov.io/gh/mrc-ide/postie/branch/main/graph/badge.svg)](https
 Use postie to post-process
 [malariasimulation](https://mrc-ide.github.io/malariasimulation/) model
 output.
+
+Postie requires some conventions in the raw model outputs to work:
+
+1.  Age-bands for clinical and severe incidence must be the same, and
+2.  The number of individuals in each age group must be output, also
+    with the same age bands.
+
+In practice this means you will need to set:
+
+    parameters$clinical_incidence_rendering_min_ages = min_ages
+    parameters$clinical_incidence_rendering_max_ages = max_ages
+    parameters$severe_incidence_rendering_min_ages = min_ages
+    parameters$severe_incidence_rendering_max_ages = max_ages
+    parameters$age_group_rendering_min_ages = min_ages
+    parameters$age_group_rendering_max_ages = max_ages
