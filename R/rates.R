@@ -76,14 +76,16 @@ rates_transform <- function(x){
       cols = -c("timestep", "ft")
     ) |>
     dplyr::mutate(
-      name = stringr::str_remove(.data$name, "_inc")
-    ) |>
-    tidyr::separate(
-      col = "name",
-      into = c(NA, "name", "age_lower", "age_upper"),
-      sep = "_",
-      convert = TRUE
-    ) |>
+      name = stringr::str_remove(.data$name, "n_inc_"),
+      name = stringr::str_remove(.data$name, "n_")
+    )
+
+  x_names <- strsplit(x$name, "_")
+  x$name <- sapply(x_names, "[", 1)
+  x$age_lower <- as.numeric(sapply(x_names, "[", 2))
+  x$age_upper <- as.numeric(sapply(x_names, "[", 3))
+
+  x <- x |>
     tidyr::pivot_wider(
       id_cols = c("timestep", "age_lower", "age_upper", "ft")
     )
