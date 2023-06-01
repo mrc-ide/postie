@@ -25,8 +25,8 @@ get_rates <- function(x, time_divisor, baseline_t, age_divisor, scaler, treatmen
   if(age_divisor < 1){
     stop("age_divisor must be >= 1")
   }
-  clinical_cols <- colnames(x)[grepl("inc_clinical", colnames(x))]
-  severe_cols <- colnames(x)[grepl("inc_sev", colnames(x))]
+  clinical_cols <- colnames(x)[grepl("inc_clinical", colnames(x)) & !grepl("p_", colnames(x))]
+  severe_cols <- colnames(x)[grepl("inc_sev", colnames(x)) & !grepl("p_", colnames(x))]
   denominator_cols <- stringr::str_replace(clinical_cols, "_inc_clinical", "")
 
   if(length(clinical_cols) != length(severe_cols)){
