@@ -94,7 +94,7 @@ rates_format <- function(x, clinical_cols, severe_cols, age_divisor){
       tidyr::pivot_longer(
         cols = -c("t", "ft")
       ) |>
-    tidyr::separate_wider_delim(.data$name, "_", names = c("name", "age_lower", "age_upper")) |>
+    tidyr::separate_wider_delim("name", "_", names = c("name", "age_lower", "age_upper")) |>
     tidyr::pivot_wider(id_cols = c("t", "ft", "age_lower", "age_upper"), names_from = "name", values_from = "value") |>
     dplyr::mutate(
       clinical = .data$clinical / .data$n,
