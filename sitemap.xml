@@ -43,16 +43,10 @@
     <loc>/reference/rates_age_aggregate.html</loc>
   </url>
   <url>
-    <loc>/reference/rates_column_check.html</loc>
-  </url>
-  <url>
     <loc>/reference/rates_format.html</loc>
   </url>
   <url>
     <loc>/reference/rates_time_aggregate.html</loc>
-  </url>
-  <url>
-    <loc>/reference/rates_transform.html</loc>
   </url>
   <url>
     <loc>/reference/tidyeval.html</loc>

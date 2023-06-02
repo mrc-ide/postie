@@ -58,6 +58,24 @@
 <!-- badges: start -->
 
 <p>Use postie to post-process <a href="https://mrc-ide.github.io/malariasimulation/" class="external-link">malariasimulation</a> model output.</p>
+<p>Postie requires are few conventions to work:</p>
+<ol style="list-style-type: decimal">
+<li>that age-bands for clinical and severe incidence must be the same. In practice this means you will need to set, for example:</li>
+</ol>
+<!-- --><div class="sourceCode" id="cb1"><pre class="sourceCode R"><code class="sourceCode r"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a>year <span class="ot">&lt;-</span> <span class="dv">365</span></span>
+<span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="-1"></a>min_ages <span class="ot">&lt;-</span> year <span class="sc">*</span> <span class="dv">0</span><span class="sc">:</span><span class="dv">99</span></span>
+<span id="cb1-3"><a href="#cb1-3" aria-hidden="true" tabindex="-1"></a>max_ages <span class="ot">&lt;-</span> year <span class="sc">*</span> <span class="dv">1</span><span class="sc">:</span><span class="dv">100</span></span>
+<span id="cb1-4"><a href="#cb1-4" aria-hidden="true" tabindex="-1"></a>parameters<span class="sc">$</span>clinical_incidence_rendering_min_ages <span class="ot">=</span> min_ages</span>
+<span id="cb1-5"><a href="#cb1-5" aria-hidden="true" tabindex="-1"></a>parameters<span class="sc">$</span>clinical_incidence_rendering_max_ages <span class="ot">=</span> max_ages</span>
+<span id="cb1-6"><a href="#cb1-6" aria-hidden="true" tabindex="-1"></a>parameters<span class="sc">$</span>severe_incidence_rendering_min_ages <span class="ot">=</span> min_ages</span>
+<span id="cb1-7"><a href="#cb1-7" aria-hidden="true" tabindex="-1"></a>parameters<span class="sc">$</span>severe_incidence_rendering_max_ages <span class="ot">=</span> max_ages</span></code></pre></div>
+<ol start="2" style="list-style-type: decimal">
+<li>that <code>ft</code> (treatment coverage) is an output variable. This will most likely be a result of setting treatment in the simulation, for example:</li>
+</ol>
+<!-- --><div class="sourceCode" id="cb2"><pre class="sourceCode R"><code class="sourceCode r"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true" tabindex="-1"></a>parameters <span class="sc">|&gt;</span></span>
+<span id="cb2-2"><a href="#cb2-2" aria-hidden="true" tabindex="-1"></a>malariasimulation<span class="sc">::</span><span class="fu">set_drugs</span>(<span class="fu">list</span>(malariasimulation<span class="sc">::</span>AL_params)) <span class="sc">|&gt;</span></span>
+<span id="cb2-3"><a href="#cb2-3" aria-hidden="true" tabindex="-1"></a>malariasimulation<span class="sc">::</span><span class="fu">set_clinical_treatment</span>(<span class="dv">1</span>, <span class="dv">50</span>, <span class="fl">0.5</span>)</span></code></pre></div>
+<p>alternatively, if no treatment is implemented, you could just add <code>ft = 0</code> to the simulation output before using postie.</p>
 </div>
   </main><aside class="col-md-3"><div class="license">
 <h2 data-toc-skip>License</h2>

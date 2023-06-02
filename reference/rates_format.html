@@ -42,13 +42,21 @@
 
     <div class="section level2">
     <h2 id="ref-usage">Usage<a class="anchor" aria-label="anchor" href="#ref-usage"></a></h2>
-    <div class="sourceCode"><pre class="sourceCode r"><code><span><span class="fu">rates_format</span><span class="op">(</span><span class="va">x</span>, age_divisor <span class="op">=</span> <span class="fl">365</span><span class="op">)</span></span></code></pre></div>
+    <div class="sourceCode"><pre class="sourceCode r"><code><span><span class="fu">rates_format</span><span class="op">(</span><span class="va">x</span>, <span class="va">clinical_cols</span>, <span class="va">severe_cols</span>, <span class="va">age_divisor</span><span class="op">)</span></span></code></pre></div>
     </div>
 
     <div class="section level2">
     <h2 id="arguments">Arguments<a class="anchor" aria-label="anchor" href="#arguments"></a></h2>
     <dl><dt>x</dt>
 <dd><p>Input data.frame</p></dd>
+
+
+<dt>clinical_cols</dt>
+<dd><p>Clinical incidence column names</p></dd>
+
+
+<dt>severe_cols</dt>
+<dd><p>Severe incidence column names</p></dd>
 
 
 <dt>age_divisor</dt>
