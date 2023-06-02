@@ -4,10 +4,14 @@
 \alias{rates_format}
 \title{Format rates}
 \usage{
-rates_format(x, age_divisor = 365)
+rates_format(x, clinical_cols, severe_cols, age_divisor)
 }
 \arguments{
 \item{x}{Input data.frame}
+
+\item{clinical_cols}{Clinical incidence column names}
+
+\item{severe_cols}{Severe incidence column names}
 
 \item{age_divisor}{Aggregation level. For example setting to 365 will return
 age units in years}

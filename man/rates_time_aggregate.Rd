@@ -4,10 +4,16 @@
 \alias{rates_time_aggregate}
 \title{Aggregate rates output over t}
 \usage{
-rates_time_aggregate(x)
+rates_time_aggregate(x, clinical_cols, severe_cols, denominator_cols)
 }
 \arguments{
 \item{x}{Input data.frame}
+
+\item{clinical_cols}{Clinical incidence column names}
+
+\item{severe_cols}{Severe incidence column names}
+
+\item{denominator_cols}{Names of denominators columns}
 }
 \description{
 Aggregate rates output over t
