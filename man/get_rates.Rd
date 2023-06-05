@@ -2,17 +2,21 @@
 % Please edit documentation in R/rates.R
 \name{get_rates}
 \alias{get_rates}
-\title{Extract basic rates from model output}
+\title{Extract basic rates from malariasimulation model output}
 \usage{
 get_rates(
   x,
   time_divisor,
   baseline_t,
   age_divisor,
-  scaler,
-  treatment_scaler,
-  baseline_treatment,
-  aggregate_age = FALSE
+  scaler = 0.215,
+  treatment_scaler = 0.5,
+  aggregate_age = FALSE,
+  mild_disability_weight = 0.006,
+  moderate_disability_weight = 0.051,
+  severe_disability_weight = 0.133,
+  clinical_episode_length = 0.01375,
+  severe_episode_length = 0.04795
 )
 }
 \arguments{
@@ -23,8 +27,7 @@ Setting to 365 would allow annual aggregation, 30 monthly, 7 weekly etc.}
 
 \item{baseline_t}{A baseline time to add to the time output}
 
-\item{age_divisor}{Aggregation level. For example setting to 365 will return
-age units in years}
+\item{age_divisor}{To transform the age units. For example setting 365 will return age units in years for age-disaggregated outputs}
 
 \item{scaler}{Scaler for severe cases to deaths. The
 original fitted scaler for P. falciparum is 0.215. See
@@ -35,10 +38,31 @@ A highly uncertain parameter, the analysis by
  \href{https://www.thelancet.com/journals/laninf/article/PIIS1473-3099(15)00423-5/fulltext}{Griffin et al (2016)}
 sampled from a uniform diastribution (0, 1).}
 
-\item{baseline_treatment}{The proportion of uncomplicated malaria cases that are effectively treated historically.}
+\item{aggregate_age}{Aggregate output over age groups,}
 
-\item{aggregate_age}{Aggregate output over age groups}
+\item{mild_disability_weight}{disability weight for mild malaria. Assigned to clinical cases in those over 5 years old}
+
+\item{moderate_disability_weight}{disability weight for moderate malaria. Assigned to clinical cases in those under 5 years old}
+
+\item{severe_disability_weight}{disability weight for severe malaria. Assigned to all severe cases}
+
+\item{clinical_episode_length}{average length of an episode of clinical malaria}
+
+\item{severe_episode_length}{average length of an episode of severe malaria}
 }
 \description{
-Extract basic rates from model output
+Summarises clinical incidence `clinical`, severe incidence `severe` and mortality `mortality`
+rates as well as per-capita years lived with disability `yld_pp`, years of life
+lost `yll_pp` and daly `dalys_pp`.
+}
+\details{
+For DALYs: disability weights are from the Global Burden of Disease study. To estimate
+YLL we assume the average life expectancy for a person aged x years taken from the UN WPP
+Africa profile for 2022. To estimate the expected age in a given raneg we assume
+exponentially distributed ages with the range. Disability weights sourced:
+ \href{https://ghdx.healthdata.org/record/ihme-data/gbd-2017-disability-weights}{here}.
+This is an approximation of YLD estimation from the GBD study; disability due to comorbid conditions
+such as motor impairment and aneamia are excluded.
+
+Note: Default parameter values are for _Plasmodium falciparum_
 }

@@ -1,18 +1,7 @@
-#' Exponential age integrand
-#'
-#' @param x Value
-#' @param lambda Rate
-fexp <- function(x, lambda){
-  x * lambda * exp(- lambda * x)
-}
-
-#' Exponential cdf
-#'
-#' @param x Value
-#' @param lambda Rate
-cexp <- function(x, lambda){
-  1 - exp(-x * lambda)
-}
+# Define the function for the integrand
+integrand <- function(x, rate){
+  x * stats::dexp(x, rate)
+  }
 
 #' Expected age within range assuming exponentially distributed pop
 #'
@@ -20,9 +9,9 @@ cexp <- function(x, lambda){
 #' @param upper_age Upper bound of age range (single value)
 #' @param average_age Average age of population
 ea <- function(lower_age, upper_age, average_age){
-  lambda <- 1 / average_age
-  stats::integrate(fexp, lower_age, upper_age, lambda = lambda)$value /
-    (cexp(upper_age, lambda) - cexp(lower_age, lambda))
+  rate <- 1 / average_age
+  stats::integrate(integrand, lower_age, upper_age, rate = rate)$value /
+    (stats::pexp(upper_age, rate) - stats::pexp(lower_age, rate))
 }
 
 #' Expected age within range assuming exponentially distributed pop

@@ -17,8 +17,7 @@ dalys(
 \arguments{
 \item{x}{Input data.frame}
 
-\item{age_divisor}{Aggregation level. For example setting to 365 will return
-age units in years}
+\item{age_divisor}{To transform the age units. For example setting 365 will return age units in years for age-disaggregated outputs}
 
 \item{mild_disability_weight}{disability weight for mild malaria. Assigned to clinical cases in those over 5 years old}
 
@@ -42,4 +41,6 @@ Disability weights sourced \href{https://ghdx.healthdata.org/record/ihme-data/gb
 
 This is an approximation of YLD estimation from the GBD study; disability due to comorbid conditions
 such as motor impairment and anemia are excluded.
+
+Note: weigths and lengths are currently for Plasmodium falciparum
 }

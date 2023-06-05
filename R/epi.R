@@ -1,9 +1,6 @@
 #' Add mortality rate
 #'
-#' @param x output
-#' @param scaler Scaler for severe cases to deaths. The
-#' original fitted scaler for P. falciparum is 0.215. See
-#' \href{https://www.thelancet.com/journals/laninf/article/PIIS1473-3099(15)00423-5/fulltext}{Griffin et al (2016)}.
+#' @inheritParams get_rates
 #'
 #' @return output with mortality rates
 #' @export
@@ -19,11 +16,7 @@ mortality_rate <- function(x, scaler){
 
 #' Adjust severe (and downstream mortality) rates as a result of treatment coverage.
 #'
-#' @param x Input data.frame
-#' @param treatment_scaler The impact of treatment coverage on progression to severe disease and death.
-#' A highly uncertain parameter, the analysis by
-#'  \href{https://www.thelancet.com/journals/laninf/article/PIIS1473-3099(15)00423-5/fulltext}{Griffin et al (2016)}
-#' sampled from a uniform diastribution (0, 1).
+#' @inheritParams get_rates
 #' @param baseline_treatment The proportion of uncomplicated malaria cases that are effectively treated historically.
 treatment_scaling <- function(x, treatment_scaler, baseline_treatment = 0){
   if(treatment_scaler > 1 || treatment_scaler < 0){
@@ -52,13 +45,9 @@ treatment_scaling <- function(x, treatment_scaler, baseline_treatment = 0){
 #' This is an approximation of YLD estimation from the GBD study; disability due to comorbid conditions
 #' such as motor impairment and anemia are excluded.
 #'
-#' @param x Input data.frame
+#' Note: weigths and lengths are currently for Plasmodium falciparum
+#'
 #' @inheritParams get_rates
-#' @param mild_disability_weight disability weight for mild malaria. Assigned to clinical cases in those over 5 years old
-#' @param moderate_disability_weight disability weight for moderate malaria. Assigned to clinical cases in those under 5 years old
-#' @param severe_disability_weight disability weight for severe malaria. Assigned to all severe cases
-#' @param clinical_episode_length average length of an episode of clinical malaria
-#' @param severe_episode_length average length of an episode of severe malaria
 dalys <- function(
     x,
     age_divisor,

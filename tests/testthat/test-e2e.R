@@ -21,8 +21,7 @@ test_that("Functions work on malariasimulation output", {
     baseline_t = 0,
     age_divisor = 1,
     scaler = 0.215,
-    treatment_scaler = 0.5,
-    baseline_treatment = 0
+    treatment_scaler = 0.5
   )
   expect_type(rates, "list")
   expect_equal(names(rates), c("t", "age_lower", "age_upper",
@@ -37,7 +36,6 @@ test_that("Functions work on malariasimulation output", {
     age_divisor = 1,
     scaler = 0.215,
     treatment_scaler = 0.5,
-    baseline_treatment = 0,
     aggregate_age = TRUE
   )
   expect_type(rates, "list")

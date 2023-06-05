@@ -15,7 +15,6 @@ test_that("get rates work", {
     age_divisor = 1,
     scaler = 1,
     treatment_scaler = 0,
-    baseline_treatment = 0,
     aggregate_age = FALSE
   )
   expected_out <- data.frame(
@@ -44,7 +43,6 @@ test_that("get rates work", {
     age_divisor = 1,
     scaler = 1,
     treatment_scaler = 0,
-    baseline_treatment = 0,
     aggregate_age = TRUE
   )
   expected_out2 <- data.frame(
@@ -71,11 +69,6 @@ test_that("get rates input checks work", {
   )
 
   expect_error(
-    get_rates(x = data.frame(timestep = 1)),
-    "required column `ft` missing"
-  )
-
-  expect_error(
     get_rates(x = data.frame(timestep = 1, ft = 0.5)),
     "required columns `n_inc_clinical_...` missing"
   )
@@ -85,9 +78,23 @@ test_that("get rates input checks work", {
     "required columns `n_inc_severe_...` missing"
   )
 
+  expect_message(
+    get_rates(x = data.frame(
+      timestep = 1,
+      n_inc_clinical_0_100 = 1,
+      n_inc_severe_0_100 = 0.1,
+      n_0_100 = 1
+    ),
+    age_divisor = 1,
+    time_divisor = 1,
+    baseline_t = 0),
+    "No treatment coverage variable (ft) in x, assumming = 0",
+    fixed = TRUE
+  )
+
   expect_error(
     get_rates(x = data.frame(timestep = 1, ft = 0.5, n_inc_clinical_0_100 = 1, n_inc_severe_0_100 = 0.1),
-              scaler = 1, treatment_scaler = 1, baseline_treatment = 1, baseline_t = 1, time_divisor = 1, age_divisor = 0.1),
+              scaler = 1, treatment_scaler = 1, baseline_t = 1, time_divisor = 1, age_divisor = 0.1),
     "age_divisor must be >= 1"
   )
 })

@@ -7,7 +7,7 @@
 mortality_rate(x, scaler)
 }
 \arguments{
-\item{x}{output}
+\item{x}{Input data.frame}
 
 \item{scaler}{Scaler for severe cases to deaths. The
 original fitted scaler for P. falciparum is 0.215. See
