@@ -1,60 +1,66 @@
 test_that("get rates work", {
-    mock_data <- data.frame(
-      timestep = c(1, 2),
-      n_inc_clinical_0_10 = 1:2,
-      n_inc_severe_0_10 = 1:2 / 10,
-      n_0_10 = 1:2 * 10,
-      ft = 0.2
-    )
+  set.seed(1)
+  mock_data <- data.frame(
+    timestep = c(1, 2),
+    n_inc_clinical_0_10 = 1:2,
+    n_inc_severe_0_10 = 1:2 / 10,
+    n_0_10 = 1:2 * 10,
+    ft = 0.2
+  )
 
-    out <- get_rates(
-      x = mock_data,
-      time_divisor = 1,
-      baseline_t = 0,
-      age_divisor = 1,
-      scaler = 1,
-      treatment_scaler = 0,
-      baseline_treatment = 0,
-      aggregate_age = FALSE
-    )
-    expected_out <- data.frame(
-      t = 1:2,
-      age_lower = 0,
-      age_upper = 10,
-      clinical = 1:2 / (1:2 * 10),
-      severe = (1:2 / 10) / (1:2 * 10),
-      mortality = (1:2 / 10) / (1:2 * 10),
-      n = c(10, 20),
-      prop_n = 1
-    )
+  out <- get_rates(
+    x = mock_data,
+    time_divisor = 1,
+    baseline_t = 0,
+    age_divisor = 1,
+    scaler = 1,
+    treatment_scaler = 0,
+    baseline_treatment = 0,
+    aggregate_age = FALSE
+  )
+  expected_out <- data.frame(
+    t = 1:2,
+    age_lower = 0,
+    age_upper = 10,
+    clinical = 1:2 / (1:2 * 10),
+    severe = (1:2 / 10) / (1:2 * 10),
+    mortality = (1:2 / 10) / (1:2 * 10),
+    yld_pp = 0.0001338985,
+    yll_pp = 0.617,
+    dalys_pp = 0.0001338985 + 0.617,
+    n = c(10, 20),
+    prop_n = 1
+  )
 
-    for(i in 1:ncol(mock_data)){
-      expect_identical(out[[i]], expected_out[[i]])
-    }
+  for(i in 1:ncol(mock_data)){
+    expect_identical(out[[i]], expected_out[[i]])
+  }
 
-    # Agg aggregated
-    out2 <- get_rates(
-      x = mock_data,
-      time_divisor = 1,
-      baseline_t = 0,
-      age_divisor = 1,
-      scaler = 1,
-      treatment_scaler = 0,
-      baseline_treatment = 0,
-      aggregate_age = TRUE
-    )
-    expected_out2 <- data.frame(
-      t = 1:2,
-      clinical = 1:2 / (1:2 * 10),
-      severe = (1:2 / 10) / (1:2 * 10),
-      mortality = (1:2 / 10) / (1:2 * 10),
-      n = c(10, 20)
-    )
+  # Agg aggregated
+  out2 <- get_rates(
+    x = mock_data,
+    time_divisor = 1,
+    baseline_t = 0,
+    age_divisor = 1,
+    scaler = 1,
+    treatment_scaler = 0,
+    baseline_treatment = 0,
+    aggregate_age = TRUE
+  )
+  expected_out2 <- data.frame(
+    t = 1:2,
+    clinical = 1:2 / (1:2 * 10),
+    severe = (1:2 / 10) / (1:2 * 10),
+    mortality = (1:2 / 10) / (1:2 * 10),
+    yld_pp = 0.0001338985,
+    yll_pp = 0.617,
+    dalys_pp = 0.0001338985 + 0.617,
+    n = c(10, 20)
+  )
 
-    for(i in 1:ncol(mock_data)){
-      expect_identical(out2[[i]], expected_out2[[i]])
-    }
-
+  for(i in 1:ncol(mock_data)){
+    expect_identical(out2[[i]], expected_out2[[i]])
+  }
 })
 
 
@@ -130,6 +136,9 @@ test_that("rates age aggregation works", {
     clinical = c(0.1, 0.2, 0.3, 0.4),
     severe = c(0.01, 0.02, 0.03, 0.04),
     mortality = c(0.001, 0.002, 0.003, 0.004),
+    yld_pp = 0.1,
+    yll_pp = 0.2,
+    dalys_pp = 0.3,
     n = c(25, 75, 25, 75),
     prop_n = c(0.25, 0.75, 0.25, 0.75)
   )
@@ -138,22 +147,43 @@ test_that("rates age aggregation works", {
   expect_equal(
     output$clinical,
     c(
-      weighted.mean(c(0.1,0.2), c(0.25,0.75)),
+      weighted.mean(c(0.1, 0.2), c(0.25,0.75)),
       weighted.mean(c(0.3, 0.4), c(0.25, 0.75))
     )
   )
   expect_equal(
     output$severe,
     c(
-      weighted.mean(c(0.01,0.02), c(0.25,0.75)),
+      weighted.mean(c(0.01, 0.02), c(0.25,0.75)),
       weighted.mean(c(0.03, 0.04), c(0.25, 0.75))
     )
   )
   expect_equal(
     output$mortality,
     c(
-      weighted.mean(c(0.001,0.002), c(0.25,0.75)),
+      weighted.mean(c(0.001, 0.002), c(0.25,0.75)),
       weighted.mean(c(0.003, 0.004), c(0.25, 0.75))
+    )
+  )
+  expect_equal(
+    output$yld_pp,
+    c(
+      weighted.mean(c(0.1, 0.1), c(0.25,0.75)),
+      weighted.mean(c(0.1, 0.1), c(0.25, 0.75))
+    )
+  )
+  expect_equal(
+    output$yll_pp,
+    c(
+      weighted.mean(c(0.2, 0.2), c(0.25,0.75)),
+      weighted.mean(c(0.2, 0.2), c(0.25, 0.75))
+    )
+  )
+  expect_equal(
+    output$dalys_pp,
+    c(
+      weighted.mean(c(0.3, 0.3), c(0.25,0.75)),
+      weighted.mean(c(0.3, 0.3), c(0.25, 0.75))
     )
   )
   expect_equal(

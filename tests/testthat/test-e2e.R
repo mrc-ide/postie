@@ -3,7 +3,7 @@ rlang::check_installed("malariasimulation")
 test_that("Functions work on malariasimulation output", {
   p <- malariasimulation::get_parameters() |>
     malariasimulation::set_drugs(list(malariasimulation::AL_params)) |>
-    malariasimulation::set_clinical_treatment(1, 50, 0.5)
+    malariasimulation::set_clinical_treatment(1, 1, 0.5)
 
   year <- 365
   min_ages <- year * 0
@@ -27,7 +27,25 @@ test_that("Functions work on malariasimulation output", {
   expect_type(rates, "list")
   expect_equal(names(rates), c("t", "age_lower", "age_upper",
                                "clinical", "severe", "mortality",
+                               "yld_pp", "yll_pp", "dalys_pp",
                                "n", "prop_n"))
+
+  rates <- get_rates(
+    s,
+    time_divisor = 1,
+    baseline_t = 0,
+    age_divisor = 1,
+    scaler = 0.215,
+    treatment_scaler = 0.5,
+    baseline_treatment = 0,
+    aggregate_age = TRUE
+  )
+  expect_type(rates, "list")
+  expect_equal(names(rates), c("t",
+                               "clinical", "severe", "mortality",
+                               "yld_pp", "yll_pp", "dalys_pp",
+                               "n"))
+
   prev <- get_prevalence(
     s,
     time_divisor = 1,

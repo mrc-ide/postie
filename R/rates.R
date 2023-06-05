@@ -54,7 +54,10 @@ get_rates <- function(x, time_divisor, baseline_t, age_divisor, scaler, treatmen
     mortality_rate(
       scaler = scaler
     ) |>
-    dplyr::select(c("t", "age_lower", "age_upper", "clinical", "severe", "mortality", "n", "prop_n"))
+    dalys(
+      age_divisor = age_divisor
+    ) |>
+    dplyr::select(c("t", "age_lower", "age_upper", "clinical", "severe", "mortality", "yld_pp", "yll_pp", "dalys_pp", "n", "prop_n"))
 
   if(aggregate_age){
     rates <- rates |>
@@ -99,8 +102,8 @@ rates_format <- function(x, clinical_cols, severe_cols, age_divisor){
     dplyr::mutate(
       clinical = .data$clinical / .data$n,
       severe = .data$severe / .data$n,
-      age_lower = round(as.numeric(.data$age_lower) / age_divisor),
-      age_upper = round(as.numeric(.data$age_upper) / age_divisor),
+      age_lower = as.numeric(.data$age_lower) / age_divisor,
+      age_upper = as.numeric(.data$age_upper) / age_divisor,
       n = round(.data$n)
     )|>
     dplyr::mutate(prop_n = .data$n / sum(.data$n), .by = "t")
@@ -116,6 +119,9 @@ rates_age_aggregate <- function(x){
       clinical = stats::weighted.mean(.data$clinical, .data$prop_n),
       severe  = stats::weighted.mean(.data$severe, .data$prop_n),
       mortality = stats::weighted.mean(.data$mortality, .data$prop_n),
+      yld_pp = stats::weighted.mean(.data$yld_pp, .data$prop_n),
+      yll_pp = stats::weighted.mean(.data$yll_pp, .data$prop_n),
+      dalys_pp = stats::weighted.mean(.data$dalys_pp, .data$prop_n),
       n = sum(.data$n),
       .by = "t"
     )
