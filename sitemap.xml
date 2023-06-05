@@ -16,7 +16,19 @@
     <loc>/index.html</loc>
   </url>
   <url>
+    <loc>/reference/cexp.html</loc>
+  </url>
+  <url>
     <loc>/reference/drop_burnin.html</loc>
+  </url>
+  <url>
+    <loc>/reference/ea.html</loc>
+  </url>
+  <url>
+    <loc>/reference/expected_age.html</loc>
+  </url>
+  <url>
+    <loc>/reference/fexp.html</loc>
   </url>
   <url>
     <loc>/reference/get_prevalence.html</loc>
