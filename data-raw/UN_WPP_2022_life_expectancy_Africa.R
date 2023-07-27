@@ -4,7 +4,7 @@
 # The average number of remaining years of life expected by a hypothetical
 # cohort of individuals alive at age x who would be subject during the remaining
 # of their lives to the mortality rates of a given year. It is expressed as years.
-# https://population.un.org/wpp/Download/Standard/Mortality/
+# https://population.un.org/wpp/Download/Standard/Mortality/. As this source is for Africa, DALY functionality should not be used when modelling countries outside of Africa.
 # Year 2022
 
 life_expectancy_africa <- read.csv("data-raw/UN_WPP_2022_life_expectancy_Africa.csv")

@@ -24,9 +24,9 @@ test_that("get rates work", {
     clinical = 1:2 / (1:2 * 10),
     severe = (1:2 / 10) / (1:2 * 10),
     mortality = (1:2 / 10) / (1:2 * 10),
-    yld_pp = 0.0001338985,
+    yld_pp = 0.0001338985*365,
     yll_pp = 0.617,
-    dalys_pp = 0.0001338985 + 0.617,
+    dalys_pp = 0.0001338985*365 + 0.617,
     n = c(10, 20),
     prop_n = 1
   )
@@ -50,9 +50,9 @@ test_that("get rates work", {
     clinical = 1:2 / (1:2 * 10),
     severe = (1:2 / 10) / (1:2 * 10),
     mortality = (1:2 / 10) / (1:2 * 10),
-    yld_pp = 0.0001338985,
+    yld_pp = 0.0001338985*365,
     yll_pp = 0.617,
-    dalys_pp = 0.0001338985 + 0.617,
+    dalys_pp = 0.0001338985*365 + 0.617,
     n = c(10, 20)
   )
 
