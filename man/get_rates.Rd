@@ -15,8 +15,8 @@ get_rates(
   mild_disability_weight = 0.006,
   moderate_disability_weight = 0.051,
   severe_disability_weight = 0.133,
-  clinical_episode_length = 0.01375 * 365,
-  severe_episode_length = 0.04795 * 365
+  clinical_episode_length = 0.01375,
+  severe_episode_length = 0.04795
 )
 }
 \arguments{
