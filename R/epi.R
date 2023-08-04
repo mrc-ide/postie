@@ -18,12 +18,13 @@ mortality_rate <- function(x, scaler){
 #'
 #' @inheritParams get_rates
 #' @param baseline_treatment The proportion of uncomplicated malaria cases that are effectively treated historically.
+#' 
 treatment_scaling <- function(x, treatment_scaler, baseline_treatment = 0){
   if(treatment_scaler > 1 || treatment_scaler < 0){
     stop("treatment_scaler must be between 0 and 1")
   }
   if(baseline_treatment > 1 || baseline_treatment < 0){
-    stop("treatment_scaler must be between 0 and 1")
+    stop("baseline treatment must be between 0 and 1")
   }
   ts <- (1 - treatment_scaler)
   x <- x |>
@@ -37,15 +38,18 @@ treatment_scaling <- function(x, treatment_scaler, baseline_treatment = 0){
 #' Calculate Years Lived with Disability (YLDs) and Disability-Adjusted Life-Years
 #' based on disability weights from the Global Burden of Disease study. To estimate
 #' YLL we assume the average life expectancy for a person aged x years taken from the UN WPP
-#' Africa profile for 2022. To estimate the expected age in a given raneg we assume
-#' exponentially distributed ages with the range.
+#' Africa profile for 2022. To estimate the expected age in a given range we assume
+#' exponentially distributed ages with the range. 
+#' YLLs are calculated by multiplying deaths by the number of years an individual was expected to live past their year of death.
 #'
 #' Disability weights sourced \href{https://ghdx.healthdata.org/record/ihme-data/gbd-2017-disability-weights}{here}
 #'
+#' Duration of disease was sourced from \href{https://www.ncbi.nlm.nih.gov/pmc/articles/PMC5321383/}{Winskill et al 2017 (Supplementary Table 8)}
+#' 
 #' This is an approximation of YLD estimation from the GBD study; disability due to comorbid conditions
 #' such as motor impairment and anemia are excluded.
 #'
-#' Note: weigths and lengths are currently for Plasmodium falciparum
+#' Note: weights and lengths are currently for Plasmodium falciparum.
 #'
 #' @inheritParams get_rates
 dalys <- function(

@@ -24,8 +24,8 @@ test_that("treatment scaling works", {
   output <- treatment_scaling(mock_data, treatment_scaler = 0)
   expect_equal(output$severe, mock_data$severe)
 
-  output_ts <- treatment_scaling(mock_data, treatment_scaler = 0.5, baseline_treatment = 0.4)
-  expect_equal(output_ts$severe, mock_data$severe * ((0.5 * mock_data$ft + (1 - mock_data$ft)) / (0.5 * 0.4 + (1 - 0.4))))
+  output_ts <- treatment_scaling(mock_data, treatment_scaler = 0.43, baseline_treatment = 0.4)
+  expect_equal(output_ts$severe, mock_data$severe * (((1-0.43) * mock_data$ft + (1 - mock_data$ft)) / ((1-0.43) * 0.4 + (1 - 0.4))))
 
   expect_error(
     treatment_scaling(mock_data, treatment_scaler = -1),
