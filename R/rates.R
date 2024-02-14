@@ -6,7 +6,7 @@
 #'
 #' For DALYs: disability weights are from the Global Burden of Disease study. To estimate
 #' YLL we assume the average life expectancy for a person aged x years taken from the UN WPP
-#' Africa profile for 2022. To estimate the expected age in a given range we assume
+#' sub-Saharan-Africa profile. To estimate the expected age in a given range we assume
 #' exponentially distributed ages with the range. Disability weights sourced:
 #'  \href{https://ghdx.healthdata.org/record/ihme-data/gbd-2017-disability-weights}{here}.
 #' This is an approximation of YLD estimation from the GBD study; disability due to comorbid conditions
