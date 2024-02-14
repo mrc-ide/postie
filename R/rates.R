@@ -100,14 +100,14 @@ rates_format <- function(x, clinical_cols, severe_cols, ages_as_years){
 rates_aggregate <- function(rates, ...){
   rates |>
     summarise(
-      clinical = weighted.mean(clinical, person_days),
-      severe = weighted.mean(severe, person_days),
-      mortality = weighted.mean(mortality, person_days),
-      yll = weighted.mean(yll, person_days),
-      yld = weighted.mean(yld, person_days),
-      dalys = weighted.mean(dalys, person_days),
-      person_days = sum(person_days),
-      time = mean(time),
+      clinical = weighted.mean(.data$clinical, .data$person_days),
+      severe = weighted.mean(.data$severe, .data$person_days),
+      mortality = weighted.mean(.data$mortality, .data$person_days),
+      yll = weighted.mean(.data$yll, .data$person_days),
+      yld = weighted.mean(.data$yld, .data$person_days),
+      dalys = weighted.mean(.data$dalys, .data$person_days),
+      person_days = sum(.data$person_days),
+      time = mean(.data$time),
       .by = dplyr::all_of(...)
     )
 }
