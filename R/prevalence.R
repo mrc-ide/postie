@@ -5,12 +5,11 @@
 #' @inheritParams time_transform
 #'
 #' @export
-get_prevalence <- function(x, time_divisor, baseline_t, age_divisor){
+get_prevalence <- function(x, baseline_year = 2000, ages_as_years = TRUE){
   prevalence <- x |>
     prevalence_estimate() |>
-    time_transform(time_divisor = time_divisor, baseline_t = baseline_t) |>
-    prevalence_time_aggregate() |>
-    prevalence_format(age_divisor = age_divisor)
+    prevalence_format(ages_as_years = ages_as_years) |>
+    format_time(baseline_year = baseline_year)
   return(prevalence)
 }
 
@@ -28,28 +27,27 @@ prevalence_estimate <- function(x){
 #' Aggregate prevalence over time
 #'
 #' @param x Input data.frame
-prevalence_time_aggregate <- function(x){
+prevalence_aggregate <- function(x, ...){
   x <- x |>
     dplyr::summarise(
       dplyr::across(dplyr::everything(), mean),
-      .by = "t"
+      time = mean(time),
+      .by = dplyr::all_of(...)
     )
   return(x)
 }
 
 #' Format prevalence output
 #'
-#' @param x Input datas.frame
+#' @param x Input data.frame
 #' @param age_divisor Aggregation level. For example setting to 365 will return
 #' age units in years
-prevalence_format <- function(x, age_divisor = 365){
-  if(age_divisor < 1){
-    stop("age_divisor must be > 1")
-  }
+prevalence_format <- function(x, ages_as_years){
+  age_divisor = ifelse(ages_as_years, 365, 1)
 
   cols <- colnames(x[,])
-  age_ranges <- stringr::str_split(stringr::str_replace(cols[!cols == "t"], "n_detect_", ""), "_")
-  cols[!cols == "t"] <- sapply(age_ranges, function(x){
+  age_ranges <- stringr::str_split(stringr::str_replace(cols[!cols == "timestep"], "n_detect_", ""), "_")
+  cols[!cols == "timestep"] <- sapply(age_ranges, function(x){
     transformed_age <- round(as.numeric(x) / age_divisor, 2)
     paste0("prevalence_", paste0(transformed_age, collapse = "_"))
   })
