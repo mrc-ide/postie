@@ -51,18 +51,18 @@ get_rates <- function(x,
     mortality_rate(
       scaler = scaler
     ) |>
+    format_time(
+      baseline_year = baseline_year
+    )  |>
     dalys(
       ages_as_years = ages_as_years,
       life_expectancy = life_expectancy
-    ) |>
-    format_time(
-      baseline_year = baseline_year
     ) |>
     dplyr::select(c(
       "year", "month", "week", "day", "time",
       "age_lower", "age_upper",
       "clinical", "severe", "mortality",
-      "yld_pp", "yll_pp", "dalys_pp",
+      "yld", "yll", "dalys",
       "person_days"))
 
   return(rates)
@@ -103,9 +103,9 @@ rates_aggregate <- function(rates, ...){
       clinical = weighted.mean(clinical, person_days),
       severe = weighted.mean(severe, person_days),
       mortality = weighted.mean(mortality, person_days),
-      yll_pp = weighted.mean(yll_pp, person_days),
-      yld_pp = weighted.mean(yld_pp, person_days),
-      dalys_pp = weighted.mean(dalys_pp, person_days),
+      yll = weighted.mean(yll, person_days),
+      yld = weighted.mean(yld, person_days),
+      dalys = weighted.mean(dalys, person_days),
       person_days = sum(person_days),
       time = mean(time),
       .by = dplyr::all_of(...)

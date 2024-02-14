@@ -28,25 +28,39 @@ dalys <- function(
     severe_episode_length = 0.04795
 ){
   age_divisor <- ifelse(ages_as_years, 1, 365)
-  x |>
+
+
+  expected_age <- x |>
+    dplyr::select(c("age_lower", "age_upper")) |>
+    unique() |>
     dplyr::mutate(
-      e_age = round(
+      age = round(
         expected_age(
-          lower_age = (.data$age_lower * age_divisor) / age_divisor, # Note this is always in years for DALYs
-          upper_age = (.data$age_upper * age_divisor) / age_divisor, # Note this is always in years for DALYs
-          average_age = life_expectancy[life_expectancy$age == 0, "life_expectancy"]
+          age_lower = (.data$age_lower / age_divisor), # Note this is always in years for DALYs
+          age_upper = (.data$age_upper / age_divisor), # Note this is always in years for DALYs
+          average_age = mean(life_expectancy[life_expectancy$age == 0, ]$life_expectancy)
         )
       )
-    ) |>
+    )
+
+  x <- x |>
     dplyr::left_join(
-      life_expectancy, by = c("e_age" = "age")
+      expected_age,
+      by = c("age_lower", "age_upper")
+    )
+
+  shared_columns <- colnames(life_expectancy)[colnames(life_expectancy) %in% colnames(x)]
+
+  x <- x |>
+    dplyr::left_join(
+      life_expectancy, by = shared_columns
     ) |>
     dplyr::mutate(
-      case_disability_weight = ifelse(.data$e_age <= 5, moderate_disability_weight, mild_disability_weight),
-      yld_pp = .data$severe * severe_disability_weight * severe_episode_length +
+      case_disability_weight = ifelse(.data$age <= 5, moderate_disability_weight, mild_disability_weight),
+      yld = .data$severe * severe_disability_weight * severe_episode_length +
         .data$clinical * .data$case_disability_weight * clinical_episode_length,
-      yll_pp = .data$mortality * .data$life_expectancy,
-      dalys_pp = .data$yld_pp + .data$yll_pp
+      yll = .data$mortality * .data$life_expectancy,
+      dalys = .data$yld + .data$yll
     )
 }
 
@@ -57,18 +71,18 @@ integrand <- function(x, rate){
 
 #' Expected age within range assuming exponentially distributed pop
 #'
-#' @param lower_age Lower bound of age range (single value)
-#' @param upper_age Upper bound of age range (single value)
+#' @param age_lower Lower bound of age range (single value)
+#' @param age_upper Upper bound of age range (single value)
 #' @param average_age Average age of population
-ea <- function(lower_age, upper_age, average_age){
+ea <- function(age_lower, age_upper, average_age){
   rate <- 1 / average_age
-  stats::integrate(integrand, lower_age, upper_age, rate = rate)$value /
-    (stats::pexp(upper_age, rate) - stats::pexp(lower_age, rate))
+  stats::integrate(integrand, age_lower, age_upper, rate = rate)$value /
+    (stats::pexp(age_upper, rate) - stats::pexp(age_lower, rate))
 }
 
 #' Expected age within range assuming exponentially distributed pop
 #'
-#' @param lower_age Lower bound of age range (can be a vector)
-#' @param upper_age Upper bound of age range (can be a vector)
+#' @param age_lower Lower bound of age range (can be a vector)
+#' @param age_upper Upper bound of age range (can be a vector)
 #' @param average_age Average age of population
-expected_age <- Vectorize(ea, vectorize.args = c("lower_age", "upper_age"))
+expected_age <- Vectorize(ea, vectorize.args = c("age_lower", "age_upper"))
