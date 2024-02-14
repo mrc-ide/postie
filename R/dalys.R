@@ -29,7 +29,6 @@ dalys <- function(
 ){
   age_divisor <- ifelse(ages_as_years, 1, 365)
 
-
   expected_age <- x |>
     dplyr::select(c("age_lower", "age_upper")) |>
     unique() |>
@@ -51,7 +50,7 @@ dalys <- function(
 
   shared_columns <- colnames(life_expectancy)[colnames(life_expectancy) %in% colnames(x)]
 
-  x <- x |>
+  x |>
     dplyr::left_join(
       life_expectancy, by = shared_columns
     ) |>

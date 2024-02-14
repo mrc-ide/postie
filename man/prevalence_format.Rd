@@ -4,13 +4,12 @@
 \alias{prevalence_format}
 \title{Format prevalence output}
 \usage{
-prevalence_format(x, age_divisor = 365)
+prevalence_format(x, ages_as_years)
 }
 \arguments{
-\item{x}{Input datas.frame}
+\item{x}{Input data.frame}
 
-\item{age_divisor}{Aggregation level. For example setting to 365 will return
-age units in years}
+\item{ages_as_years}{Convert ages to be in units of years}
 }
 \description{
 Format prevalence output

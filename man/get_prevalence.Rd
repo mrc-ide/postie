@@ -4,13 +4,14 @@
 \alias{get_prevalence}
 \title{Extract basic rates from model output}
 \usage{
-get_prevalence(x, time_divisor, baseline_t, age_divisor)
+get_prevalence(x, baseline_year = 2000, ages_as_years = TRUE)
 }
 \arguments{
 \item{x}{Input data.frame}
 
-\item{age_divisor}{Aggregation level. For example setting to 365 will return
-age units in years}
+\item{baseline_year}{Baseline year (assumes simulation starts on the first day of the year)}
+
+\item{ages_as_years}{Convert ages to be in units of years}
 }
 \description{
 Extract basic rates from model output

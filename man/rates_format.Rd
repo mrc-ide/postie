@@ -13,8 +13,7 @@ rates_format(x, clinical_cols, severe_cols, ages_as_years)
 
 \item{severe_cols}{Severe incidence column names}
 
-\item{age_divisor}{Aggregation level. For example setting to 365 will return
-age units in years}
+\item{ages_as_years}{Convert ages to be in units of years}
 }
 \description{
 Create rates from counts and specifies age output units
