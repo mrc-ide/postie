@@ -9,11 +9,6 @@ get_prevalence(x, time_divisor, baseline_t, age_divisor)
 \arguments{
 \item{x}{Input data.frame}
 
-\item{time_divisor}{Aggregation level. Default = 1 (no aggregation).
-Setting to 365 would allow annual aggregation, 30 monthly, 7 weekly etc.}
-
-\item{baseline_t}{A baseline time to add to the time output}
-
 \item{age_divisor}{Aggregation level. For example setting to 365 will return
 age units in years}
 }

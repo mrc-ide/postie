@@ -4,7 +4,7 @@
 \alias{rates_format}
 \title{Format rates}
 \usage{
-rates_format(x, clinical_cols, severe_cols, age_divisor)
+rates_format(x, clinical_cols, severe_cols, ages_as_years)
 }
 \arguments{
 \item{x}{Input data.frame}

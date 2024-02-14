@@ -6,25 +6,16 @@
 \usage{
 get_rates(
   x,
-  time_divisor,
-  baseline_t,
-  age_divisor,
-  scaler,
-  treatment_scaler,
-  baseline_treatment,
-  aggregate_age = FALSE
+  baseline_year = 2000,
+  ages_as_years = TRUE,
+  scaler = 0.215,
+  treatment_scaler = 0.5
 )
 }
 \arguments{
 \item{x}{Input data.frame}
 
-\item{time_divisor}{Aggregation level. Default = 1 (no aggregation).
-Setting to 365 would allow annual aggregation, 30 monthly, 7 weekly etc.}
-
-\item{baseline_t}{A baseline time to add to the time output}
-
-\item{age_divisor}{Aggregation level. For example setting to 365 will return
-age units in years}
+\item{ages_as_years}{Converts ages from days to years}
 
 \item{scaler}{Scaler for severe cases to deaths. The
 original fitted scaler for P. falciparum is 0.215. See
@@ -35,9 +26,7 @@ A highly uncertain parameter, the analysis by
  \href{https://www.thelancet.com/journals/laninf/article/PIIS1473-3099(15)00423-5/fulltext}{Griffin et al (2016)}
 sampled from a uniform diastribution (0, 1).}
 
-\item{baseline_treatment}{The proportion of uncomplicated malaria cases that are effectively treated historically.}
-
-\item{aggregate_age}{Aggregate output over age groups}
+\item{baseline}{year Starting year, assuming the model runs begins at the start of the year}
 }
 \description{
 Extract basic rates from model output
