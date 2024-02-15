@@ -1,11 +1,12 @@
 Package: postie
 Type: Package
-Title: What the Package Does (Title Case)
+Title: malariasimulation post-processing
 Version: 1.0.0
-Author: Who wrote it
-Maintainer: The package maintainer <yourself@somewhere.net>
-Description: More about what it does (maybe more than one line)
-    Use four spaces when indenting paragraphs within the Description.
+Authors@R: c(
+    person("Pete", "Winskill", email = "p.winskill@imperial.ac.uk", role = c("aut", "cre"))
+    )
+Description: Extraction and formatting of common malariometrics from raw malariasimulation output.
+    These include prevalence indicators, cases, deaths and DALYs.
 License: MIT + file LICENSE
 Encoding: UTF-8
 LazyData: true
