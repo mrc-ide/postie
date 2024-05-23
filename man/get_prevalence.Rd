@@ -4,10 +4,17 @@
 \alias{get_prevalence}
 \title{Extract basic rates from model output}
 \usage{
-get_prevalence(x, baseline_year = 2000, ages_as_years = TRUE)
+get_prevalence(
+  x,
+  diagnostic = "lm",
+  baseline_year = 2000,
+  ages_as_years = TRUE
+)
 }
 \arguments{
 \item{x}{Input data.frame}
+
+\item{diagnostic}{Can be light microscopy ("lm"), or PCR ("pcr")}
 
 \item{baseline_year}{Baseline year (assumes simulation starts on the first day of the year)}
 

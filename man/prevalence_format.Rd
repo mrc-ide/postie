@@ -4,10 +4,12 @@
 \alias{prevalence_format}
 \title{Format prevalence output}
 \usage{
-prevalence_format(x, ages_as_years)
+prevalence_format(x, diagnostic, ages_as_years)
 }
 \arguments{
 \item{x}{Input data.frame}
+
+\item{diagnostic}{Can be light microscopy ("lm"), or PCR ("pcr")}
 
 \item{ages_as_years}{Convert ages to be in units of years}
 }
