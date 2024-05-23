@@ -15,9 +15,7 @@ test_that("Functions work on malariasimulation output", {
 
   s <- malariasimulation::run_simulation(100, p)
 
-  rates <- get_rates(
-    s
-  )
+  rates <- get_rates(s)
   expect_type(rates, "list")
   expect_equal(names(rates), c("year", "month", "week", "day", "time",
                                "age_lower", "age_upper",
@@ -25,10 +23,17 @@ test_that("Functions work on malariasimulation output", {
                                "yld", "yll", "dalys",
                                "person_days"))
 
-  prev <- get_prevalence(
-    s
-  )
+  prev <- get_prevalence(s)
   expect_type(prev, "list")
   expect_equal(names(prev), c("year", "month", "week", "day", "time",
-                              "prevalence_2_10"))
+                              "lm_prevalence_2_10"))
+
+  prev <- get_prevalence(s, diagnostic = "pcr")
+  expect_type(prev, "list")
+  expect_equal(names(prev), c("year", "month", "week", "day", "time",
+                              "pcr_prevalence_2_10"))
+
+  expect_error(
+    get_prevalence(s, diagnostic = "wrong")
+  )
 })
