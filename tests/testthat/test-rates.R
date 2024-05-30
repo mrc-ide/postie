@@ -5,7 +5,7 @@ test_that("get rates input checks work", {
   )
 
   expect_error(
-    get_rates(x = data.frame(timestep = 1)),
+    get_rates(x = data.frame(timestep = 1), infer_ft = FALSE),
     "required column `ft` missing"
   )
 

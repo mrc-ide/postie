@@ -38,6 +38,7 @@
 #' @param clinical_episode_length average length of an episode of clinical malaria
 #' @param severe_episode_length average length of an episode of severe malaria
 #' @param life_expectancy data.frame of expected years left to live. See example in data for format
+#' @param infer_ft If ft not found in model output (usually if ft = 0), assume ft = 0. If FALSE an error will be thrown
 #'
 #' @export
 get_rates <- function(x,
@@ -49,14 +50,20 @@ get_rates <- function(x,
                       severe_disability_weight = 0.133,
                       clinical_episode_length = 0.01375,
                       severe_episode_length = 0.04795,
-                      life_expectancy = life_expectancy_africa
+                      life_expectancy = life_expectancy_africa,
+                      infer_ft = TRUE
 ){
   cols <- colnames(x)
   if(!"timestep" %in% cols){
     stop("required column `timestep` missing")
   }
   if(!"ft" %in% cols){
-    stop("required column `ft` missing")
+    if(infer_ft){
+      warning("required column `ft` not found, assumming ft = 0")
+      x$ft <- 0
+    } else {
+      stop("required column `ft` missing")
+    }
   }
   if(sum(grepl("n_inc_clinical", cols)) == 0){
     stop("required columns `n_inc_clinical_...` missing")

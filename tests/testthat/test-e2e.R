@@ -33,6 +33,18 @@ test_that("Functions work on malariasimulation output", {
   expect_equal(names(prev), c("year", "month", "week", "day", "time",
                               "pcr_prevalence_2_10"))
 
+  s <- s[, !colnames(s) == "ft"]
+  expect_warning(
+    rate <- get_rates(s),
+    "required column `ft` not found, assumming ft = 0"
+  )
+  expect_type(rates, "list")
+  expect_equal(names(rates), c("year", "month", "week", "day", "time",
+                               "age_lower", "age_upper",
+                               "clinical", "severe", "mortality",
+                               "yld", "yll", "dalys",
+                               "person_days"))
+
   expect_error(
     get_prevalence(s, diagnostic = "wrong")
   )

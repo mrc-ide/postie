@@ -15,7 +15,8 @@ get_rates(
   severe_disability_weight = 0.133,
   clinical_episode_length = 0.01375,
   severe_episode_length = 0.04795,
-  life_expectancy = life_expectancy_africa
+  life_expectancy = life_expectancy_africa,
+  infer_ft = TRUE
 )
 }
 \arguments{
@@ -53,6 +54,8 @@ would be the same as the risk with a treatment delay of >3 days (lower estimate)
 \item{severe_episode_length}{average length of an episode of severe malaria}
 
 \item{life_expectancy}{data.frame of expected years left to live. See example in data for format}
+
+\item{infer_ft}{If ft not found in model output (usually if ft = 0), assume ft = 0. If FALSE an error will be thrown}
 }
 \description{
 Summarises clinical incidence `clinical`, severe incidence `severe` and mortality `mortality`
