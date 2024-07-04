@@ -1,7 +1,7 @@
 Package: postie
 Type: Package
 Title: malariasimulation post-processing
-Version: 1.0.2
+Version: 1.0.3
 Authors@R: c(
     person("Pete", "Winskill", email = "p.winskill@imperial.ac.uk", role = c("aut", "cre"))
     )

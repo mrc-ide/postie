@@ -64,6 +64,8 @@ get_rates <- function(x,
     } else {
       stop("required column `ft` missing")
     }
+  } else {
+    x$ft[is.na(x$ft)] <- 0
   }
   if(sum(grepl("n_inc_clinical", cols)) == 0){
     stop("required columns `n_inc_clinical_...` missing")
