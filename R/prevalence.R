@@ -21,7 +21,7 @@ get_prevalence <- function(x, diagnostic = "lm", baseline_year = 2000, ages_as_y
 prevalence_estimate <- function(x, diagnostic){
   name <- paste0("n_detect_", diagnostic)
   prevalence_cols = colnames(x)[grepl(name, colnames(x))]
-  prevalence_denominator_cols = stringr::str_replace(prevalence_cols, name, "n")
+  prevalence_denominator_cols = stringr::str_replace(prevalence_cols, name, "n_age")
   prevalence <- x[ , prevalence_cols, drop = FALSE] / x[ , prevalence_denominator_cols]
   x <- dplyr::bind_cols(timestep = x[,"timestep"], prevalence)
   return(x)

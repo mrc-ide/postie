@@ -2,7 +2,7 @@ test_that("prevalence_estimate works", {
   mock_data <- data.frame(
     timestep = 1:4,
     n_detect_lm_1_2 = c(0, 1, 2, 3),
-    n_1_2 = 10
+    n_age_1_2 = 10
   )
   output <- prevalence_estimate(mock_data, diagnostic = "lm")
   expect_equal(output$n_detect_lm_1_2, mock_data$n_detect_lm_1_2 / 10)

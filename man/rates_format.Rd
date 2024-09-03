@@ -4,7 +4,7 @@
 \alias{rates_format}
 \title{Format rates}
 \usage{
-rates_format(x, clinical_cols, severe_cols, ages_as_years)
+rates_format(x, clinical_cols, severe_cols, denominator_cols, ages_as_years)
 }
 \arguments{
 \item{x}{Input data.frame}
@@ -12,6 +12,8 @@ rates_format(x, clinical_cols, severe_cols, ages_as_years)
 \item{clinical_cols}{Clinical incidence column names}
 
 \item{severe_cols}{Severe incidence column names}
+
+\item{denominator_cols}{Denominator column names}
 
 \item{ages_as_years}{Convert ages to be in units of years}
 }

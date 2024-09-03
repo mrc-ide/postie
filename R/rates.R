@@ -75,7 +75,7 @@ get_rates <- function(x,
   }
   clinical_cols <- colnames(x)[grepl("inc_clinical", colnames(x)) & !grepl("p_", colnames(x))]
   severe_cols <- colnames(x)[grepl("inc_sev", colnames(x)) & !grepl("p_", colnames(x))]
-  denominator_cols <- stringr::str_replace(clinical_cols, "_inc_clinical", "")
+  denominator_cols <- stringr::str_replace(clinical_cols, "inc_clinical", "age")
 
   if(length(clinical_cols) != length(severe_cols)){
     stop("The same age_min and age_max must be provided for clinical and severe incidence")
@@ -86,6 +86,7 @@ get_rates <- function(x,
     rates_format(
       clinical_cols = clinical_cols,
       severe_cols = severe_cols,
+      denominator_cols = denominator_cols,
       ages_as_years = ages_as_years
     ) |>
     treatment_scaling(
@@ -124,12 +125,14 @@ get_rates <- function(x,
 #' @inheritParams get_rates
 #' @param clinical_cols Clinical incidence column names
 #' @param severe_cols Severe incidence column names
-rates_format <- function(x, clinical_cols, severe_cols, ages_as_years){
+#' @param denominator_cols Denominator column names
+rates_format <- function(x, clinical_cols, severe_cols, denominator_cols, ages_as_years){
   age_divisor = ifelse(ages_as_years, 365, 1)
 
   x |>
     dplyr::rename_with( ~ gsub("n_inc_", "", .x, fixed = TRUE), .cols = dplyr::all_of(clinical_cols)) |>
     dplyr::rename_with( ~ gsub("n_inc_", "", .x, fixed = TRUE), .cols = dplyr::all_of(severe_cols)) |>
+    dplyr::rename_with( ~ gsub("age_", "", .x, fixed = TRUE), .cols = dplyr::all_of(denominator_cols)) |>
     tidyr::pivot_longer(
       cols = -c("timestep", "ft")
     ) |>
