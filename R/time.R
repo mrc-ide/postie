@@ -1,23 +1,34 @@
-#' Create a new time column for aggregation
+#' Adds time columns
+#'
+#' Adds year (assuming no leap years), month, week (assuming last week in the year is 8 days),
+#' day and time columns. Time is usuful for plotting.
 #'
 #' @param x Input data.frame
-#' @param time_divisor Aggregation level. Default = 1 (no aggregation).
-#' Setting to 365 would allow annual aggregation, 30 monthly, 7 weekly etc.
-#' @param baseline_t A baseline time to add to the time output
-#'
-#' @export
-time_transform <- function(x, time_divisor = 1, baseline_t = 0){
-  if(max(x$timestep) %% time_divisor != 0){
-    warning("Number of timesteps not divisible exactly by level, group may be unequal")
-  }
+#' @param baseline_year baseline_year Baseline year
+format_time <- function(x, baseline_year){
+
+  days_in_months <- c(31, 28, 31, 30, 31, 30, 31, 31, 30, 31, 30, 31)
+  months <- rep(1:12, days_in_months)
+  weeks <- c(rep(1:52, each = 7), 52)[1:365]
+
+  time <- baseline_year + (x$timestep - 1) / 365
+  year <- floor(time)
+  day <- 1 + ((x$timestep - 1) %% 365)
+  month <- months[day]
+  week <- weeks[day]
 
   x <- x |>
-    dplyr::mutate(t = as.integer(ceiling(.data$timestep / time_divisor) + baseline_t)) |>
-    dplyr::select(-"timestep")
+    dplyr::mutate(
+      time = time,
+      year = year,
+      month = month,
+      week = week,
+      day = day
+    ) |>
+    dplyr::select(time, year, month, week, day, dplyr::everything())
 
   return(x)
 }
-
 
 #' Remove burn in period from simulation output
 #'

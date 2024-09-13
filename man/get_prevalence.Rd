@@ -4,18 +4,21 @@
 \alias{get_prevalence}
 \title{Extract basic rates from model output}
 \usage{
-get_prevalence(x, time_divisor, baseline_t, age_divisor)
+get_prevalence(
+  x,
+  diagnostic = "lm",
+  baseline_year = 2000,
+  ages_as_years = TRUE
+)
 }
 \arguments{
 \item{x}{Input data.frame}
 
-\item{time_divisor}{Aggregation level. Default = 1 (no aggregation).
-Setting to 365 would allow annual aggregation, 30 monthly, 7 weekly etc.}
+\item{diagnostic}{Can be light microscopy ("lm"), or PCR ("pcr")}
 
-\item{baseline_t}{A baseline time to add to the time output}
+\item{baseline_year}{Baseline year (assumes simulation starts on the first day of the year)}
 
-\item{age_divisor}{Aggregation level. For example setting to 365 will return
-age units in years}
+\item{ages_as_years}{Convert ages to be in units of years}
 }
 \description{
 Extract basic rates from model output
