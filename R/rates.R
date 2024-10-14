@@ -120,7 +120,7 @@ get_rates <- function(x,
 
 #' Format rates
 #'
-#' Create rates from counts and specifies age output units
+#' Create rates from counts and specifies age output units.
 #'
 #' @inheritParams get_rates
 #' @param clinical_cols Clinical incidence column names

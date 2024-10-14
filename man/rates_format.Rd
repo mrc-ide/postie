@@ -18,5 +18,5 @@ rates_format(x, clinical_cols, severe_cols, denominator_cols, ages_as_years)
 \item{ages_as_years}{Convert ages to be in units of years}
 }
 \description{
-Create rates from counts and specifies age output units
+Create rates from counts and specifies age output units.
 }
