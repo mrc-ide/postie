@@ -16,18 +16,18 @@ cexp <- function(x, lambda){
 
 #' Expected age within range assuming exponentially distributed pop
 #'
-#' @param lower_age Lower bound of age range (single value)
-#' @param upper_age Upper bound of age range (single value)
+#' @param age_lower Lower bound of age range (single value)
+#' @param age_upper Upper bound of age range (single value)
 #' @param average_age Average age of population
-ea <- function(lower_age, upper_age, average_age){
+ea <- function(age_lower, age_upper, average_age){
   lambda <- 1 / average_age
-  stats::integrate(fexp, lower_age, upper_age, lambda = lambda)$value /
-    (cexp(upper_age, lambda) - cexp(lower_age, lambda))
+  stats::integrate(fexp, age_lower, age_upper, lambda = lambda)$value /
+    (cexp(age_upper, lambda) - cexp(age_lower, lambda))
 }
 
 #' Expected age within range assuming exponentially distributed pop
 #'
-#' @param lower_age Lower bound of age range (can be a vector)
-#' @param upper_age Upper bound of age range (can be a vector)
+#' @param age_lower Lower bound of age range (can be a vector)
+#' @param age_upper Upper bound of age range (can be a vector)
 #' @param average_age Average age of population
-expected_age <- Vectorize(ea, vectorize.args = c("lower_age", "upper_age"))
+expected_age <- Vectorize(ea, vectorize.args = c("age_lower", "age_upper"))

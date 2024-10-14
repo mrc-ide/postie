@@ -4,7 +4,7 @@
 \alias{rates_format}
 \title{Format rates}
 \usage{
-rates_format(x, clinical_cols, severe_cols, age_divisor)
+rates_format(x, clinical_cols, severe_cols, denominator_cols, ages_as_years)
 }
 \arguments{
 \item{x}{Input data.frame}
@@ -13,9 +13,10 @@ rates_format(x, clinical_cols, severe_cols, age_divisor)
 
 \item{severe_cols}{Severe incidence column names}
 
-\item{age_divisor}{Aggregation level. For example setting to 365 will return
-age units in years}
+\item{denominator_cols}{Denominator column names}
+
+\item{ages_as_years}{Convert ages to be in units of years}
 }
 \description{
-Create rates from counts and specifies age output units
+Create rates from counts and specifies age output units.
 }

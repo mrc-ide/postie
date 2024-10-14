@@ -4,30 +4,24 @@ test_that("time_transform works", {
   )
 
   expected_output <- data.frame(
-    t = 1:(365 * 5)
+    time =  2000 + (mock_data$timestep - 1) / 365,
+    year = rep(2000:2004, each = 365),
+    month = rep(1:12, c(31, 28, 31, 30, 31, 30, 31, 31, 30, 31, 30, 31)),
+    week = c(rep(1:52, each = 7), 52),
+    day = 1:365,
+    timestep = 1:(365 * 5)
   )
-  expect_identical(time_transform(mock_data), expected_output)
+  expect_equal(format_time(mock_data, baseline_year = 2000), expected_output)
 
-  expected_year <- data.frame(
-    t = rep(1:5, each = 365)
+  expected_output2 <- data.frame(
+    time =  2010 + (mock_data$timestep - 1) / 365,
+    year = rep(2010:2014, each = 365),
+    month = rep(1:12, c(31, 28, 31, 30, 31, 30, 31, 31, 30, 31, 30, 31)),
+    week = c(rep(1:52, each = 7), 52),
+    day = 1:365,
+    timestep = 1:(365 * 5)
   )
-  expect_identical(
-    time_transform(mock_data, time_divisor = 365),
-    expected_year
-  )
-
-  expected_baseline<- data.frame(
-    t = 2000L + rep(1:5, each = 365)
-  )
-  expect_identical(
-    time_transform(mock_data, time_divisor = 365, baseline_t = 2000),
-    expected_baseline
-  )
-
-  expect_warning(
-    time_transform(mock_data, time_divisor = 7),
-    "Number of timesteps not divisible exactly by level, group may be unequal"
-  )
+  expect_equal(format_time(mock_data, baseline_year = 2010), expected_output2)
 })
 
 test_that("check drop burnin works", {

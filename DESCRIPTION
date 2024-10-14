@@ -1,15 +1,16 @@
 Package: postie
 Type: Package
-Title: What the Package Does (Title Case)
-Version: 0.1.1
-Author: Who wrote it
-Maintainer: The package maintainer <yourself@somewhere.net>
-Description: More about what it does (maybe more than one line)
-    Use four spaces when indenting paragraphs within the Description.
+Title: malariasimulation post-processing
+Version: 1.0.3
+Authors@R: c(
+    person("Pete", "Winskill", email = "p.winskill@imperial.ac.uk", role = c("aut", "cre"))
+    )
+Description: Extraction and formatting of common malariometrics from raw malariasimulation output.
+    These include prevalence indicators, cases, deaths and DALYs.
 License: MIT + file LICENSE
 Encoding: UTF-8
 LazyData: true
-RoxygenNote: 7.2.3
+RoxygenNote: 7.3.2
 Remotes:
   mrc-ide/malariasimulation
 Imports: 
@@ -23,3 +24,5 @@ Suggests:
     roxygen2,
     testthat (>= 3.0.0)
 Config/testthat/edition: 3
+Depends: 
+    R (>= 2.10)

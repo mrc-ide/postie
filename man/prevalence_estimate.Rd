@@ -4,10 +4,12 @@
 \alias{prevalence_estimate}
 \title{Extract prevalence estimates from malariasimulation output}
 \usage{
-prevalence_estimate(x)
+prevalence_estimate(x, diagnostic)
 }
 \arguments{
 \item{x}{Input data.frame}
+
+\item{diagnostic}{Can be light microscopy ("lm"), or PCR ("pcr")}
 }
 \description{
 Extract prevalence estimates from malariasimulation output

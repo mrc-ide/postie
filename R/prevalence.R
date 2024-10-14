@@ -1,25 +1,27 @@
 #' Extract basic rates from model output
 #'
-#' @param x Input data.frame
-#' @inheritParams prevalence_format
-#' @inheritParams time_transform
+#' @param diagnostic Can be light microscopy ("lm"), or PCR ("pcr")
+#' @inheritParams get_rates
 #'
 #' @export
-get_prevalence <- function(x, time_divisor, baseline_t, age_divisor){
+get_prevalence <- function(x, diagnostic = "lm", baseline_year = 2000, ages_as_years = TRUE){
+  stopifnot(diagnostic %in% c("lm", "pcr"))
   prevalence <- x |>
-    prevalence_estimate() |>
-    time_transform(time_divisor = time_divisor, baseline_t = baseline_t) |>
-    prevalence_time_aggregate() |>
-    prevalence_format(age_divisor = age_divisor)
+    prevalence_estimate(diagnostic = diagnostic) |>
+    prevalence_format(diagnostic = diagnostic, ages_as_years = ages_as_years) |>
+    format_time(baseline_year = baseline_year) |>
+    dplyr::select(-"timestep") |>
+    dplyr::select("year", "month", "week", "day", "time", dplyr::everything())
   return(prevalence)
 }
 
 #' Extract prevalence estimates from malariasimulation output
 #'
-#' @param x Input data.frame
-prevalence_estimate <- function(x){
-  prevalence_cols = colnames(x)[grepl("n_detect", colnames(x))]
-  prevalence_denominator_cols = stringr::str_replace(prevalence_cols, "n_detect", "n")
+#' @inheritParams get_prevalence
+prevalence_estimate <- function(x, diagnostic){
+  name <- paste0("n_detect_", diagnostic)
+  prevalence_cols = colnames(x)[grepl(name, colnames(x))]
+  prevalence_denominator_cols = stringr::str_replace(prevalence_cols, name, "n_age")
   prevalence <- x[ , prevalence_cols, drop = FALSE] / x[ , prevalence_denominator_cols]
   x <- dplyr::bind_cols(timestep = x[,"timestep"], prevalence)
   return(x)
@@ -27,31 +29,30 @@ prevalence_estimate <- function(x){
 
 #' Aggregate prevalence over time
 #'
-#' @param x Input data.frame
-prevalence_time_aggregate <- function(x){
+#' @inheritParams get_prevalence
+#' @param ... Aggregation columns
+prevalence_aggregate <- function(x, ...){
   x <- x |>
     dplyr::summarise(
       dplyr::across(dplyr::everything(), mean),
-      .by = "t"
+      time = mean(.data$time),
+      .by = dplyr::all_of(...)
     )
   return(x)
 }
 
 #' Format prevalence output
 #'
-#' @param x Input datas.frame
-#' @param age_divisor Aggregation level. For example setting to 365 will return
-#' age units in years
-prevalence_format <- function(x, age_divisor = 365){
-  if(age_divisor < 1){
-    stop("age_divisor must be > 1")
-  }
+#' @inheritParams get_prevalence
+prevalence_format <- function(x, diagnostic, ages_as_years){
+  name <- paste0("n_detect_", diagnostic, "_")
+  age_divisor = ifelse(ages_as_years, 365, 1)
 
   cols <- colnames(x[,])
-  age_ranges <- stringr::str_split(stringr::str_replace(cols[!cols == "t"], "n_detect_", ""), "_")
-  cols[!cols == "t"] <- sapply(age_ranges, function(x){
+  age_ranges <- stringr::str_split(stringr::str_replace(cols[!cols == "timestep"], name, ""), "_")
+  cols[!cols == "timestep"] <- sapply(age_ranges, function(x){
     transformed_age <- round(as.numeric(x) / age_divisor, 2)
-    paste0("prevalence_", paste0(transformed_age, collapse = "_"))
+    paste0(diagnostic, "_prevalence_", paste0(transformed_age, collapse = "_"))
   })
   colnames(x) <- cols
   return(x)
