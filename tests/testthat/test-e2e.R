@@ -14,12 +14,15 @@ test_that("Functions work on malariasimulation output", {
   p$severe_incidence_rendering_max_ages = max_ages
 
   s <- malariasimulation::run_simulation(100, p)
+  s$ft_sev <- 0.8
 
   rates <- get_rates(s)
   expect_type(rates, "list")
   expect_equal(names(rates), c("year", "month", "week", "day", "time",
                                "age_lower", "age_upper",
-                               "clinical", "severe", "mortality",
+                               "clinical",
+                               "severe_hospital", "severe_community",  "severe",
+                               "mortality_hospital", "mortality_community", "mortality",
                                "yld", "yll", "dalys",
                                "person_days"))
 
@@ -41,7 +44,9 @@ test_that("Functions work on malariasimulation output", {
   expect_type(rates, "list")
   expect_equal(names(rates), c("year", "month", "week", "day", "time",
                                "age_lower", "age_upper",
-                               "clinical", "severe", "mortality",
+                               "clinical",
+                               "severe_hospital", "severe_community",  "severe",
+                               "mortality_hospital", "mortality_community", "mortality",
                                "yld", "yll", "dalys",
                                "person_days"))
 
