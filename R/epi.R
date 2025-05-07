@@ -17,9 +17,11 @@ severe_incidence_mortality <- function(x, treatment_scaler, hosp_sev_cfr, commun
   x <- x |>
     # Estimate hospitalised and severe incidence
     dplyr::mutate(
-      severe_hospital = .data$severe,
-      # Back‑out the non‑hospitalised severe incidence
-      severe_community  = (1 - .data$ft_sev) / .data$ft_sev * .data$severe_hospital
+      # Estimate total severe from hospitalised severe based on original fitted model ft_sev of 0.8
+      total_severe = .data$severe + (1 - 0.8) / 0.8 * .data$severe,
+      # split total based on new estimate of ft_sev
+      severe_hospital = total_severe * .data$ft_sev,
+      severe_community = total_severe * (1 - .data$ft_sev)
     ) |>
     # Rescale for impact of first-line treatment (Assuming no difference in access by severity group)
     dplyr::mutate(
@@ -34,8 +36,6 @@ severe_incidence_mortality <- function(x, treatment_scaler, hosp_sev_cfr, commun
       mortality_community = .data$severe_community * community_sev_cfr,
       mortality = .data$mortality_hospital + .data$mortality_community
     ) |>
-    dplyr::select(-"scaling") |>
-    dplyr::select(-"ft") |>
-    dplyr::select(-"ft_sev")
+    dplyr::select(-c("scaling", "ft", "ft_sev", "total_severe"))
   return(x)
 }
