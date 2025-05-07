@@ -55,7 +55,7 @@
 #' @param severe_episode_length average length of an episode of severe malaria
 #' @param life_expectancy data.frame of expected years left to live. See example in data for format
 #' @param infer_ft If ft not found in model output (usually if ft = 0), assume ft = 0. If FALSE an error will be thrown
-#' @param infer_ft_Sev If ft_sev not found in model output assume ft_sev = 0.8. If FALSE an error will be thrown
+#' @param infer_ft_sev If ft_sev not found in model output assume ft_sev = 0.8. If FALSE an error will be thrown
 #'
 #' @export
 get_rates <- function(x,

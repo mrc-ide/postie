@@ -24,15 +24,15 @@ severe_incidence_mortality <- function(x, treatment_scaler, hosp_sev_cfr, commun
     # Rescale for impact of first-line treatment (Assuming no difference in access by severity group)
     dplyr::mutate(
       scaling = (1 - treatment_scaler) * .data$ft,
-      severe_hospital = severe_hospital * scaling,
-      severe_community = severe_community * scaling,
-      severe = severe_hospital + severe_community,
+      severe_hospital = .data$severe_hospital * .data$scaling,
+      severe_community = .data$severe_community * .data$scaling,
+      severe = .data$severe_hospital + .data$severe_community,
     ) |>
     # Apply location-specific severe case fatality ratios to estimate mortality
     dplyr::mutate(
-      mortality_hospital = severe_hospital * hosp_sev_cfr,
-      mortality_community = severe_community * community_sev_cfr,
-      mortality = mortality_hospital + mortality_community
+      mortality_hospital = .data$severe_hospital * hosp_sev_cfr,
+      mortality_community = .data$severe_community * community_sev_cfr,
+      mortality = .data$mortality_hospital + .data$mortality_community
     ) |>
     dplyr::select(-"scaling") |>
     dplyr::select(-"ft") |>

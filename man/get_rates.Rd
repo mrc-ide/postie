@@ -61,7 +61,7 @@ The original estimate fitted to Lubell et al data in Griffin et al (2016) 0.6}
 
 \item{infer_ft}{If ft not found in model output (usually if ft = 0), assume ft = 0. If FALSE an error will be thrown}
 
-\item{infer_ft_Sev}{If ft_sev not found in model output assume ft_sev = 0.8. If FALSE an error will be thrown}
+\item{infer_ft_sev}{If ft_sev not found in model output assume ft_sev = 0.8. If FALSE an error will be thrown}
 }
 \description{
 Summarises clinical incidence `clinical`, severe incidence `severe` and mortality `mortality`.
