@@ -11,6 +11,8 @@ public.](https://www.repostatus.org/badges/latest/wip.svg)](https://www.repostat
 [![R-CMD-check](https://github.com/mrc-ide/postie/workflows/R-CMD-check/badge.svg)](https://github.com/mrc-ide/postie/actions)
 [![Coverage
 status](https://codecov.io/gh/mrc-ide/postie/branch/main/graph/badge.svg)](https://codecov.io/github/mrc-ide/postie)
+[![Codecov test
+coverage](https://codecov.io/gh/mrc-ide/postie/graph/badge.svg)](https://app.codecov.io/gh/mrc-ide/postie)
 <!-- badges: end -->
 
 Use postie to post-process
