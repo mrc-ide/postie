@@ -1,4 +1,4 @@
-#' Adjust severe rates as a result of treatment coverage, dis-aggregated by hospitalised and community and estimate mortality
+#' Adjust severe rates as a result of treatment coverage and estimate mortality disaggregated by hospitalised and community
 #'
 #' See\href{https://www.thelancet.com/journals/laninf/article/PIIS1473-3099(15)00423-5/fulltext}{Griffin et al (2016)} SI for
 #' more details
