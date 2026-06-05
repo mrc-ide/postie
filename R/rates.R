@@ -29,6 +29,12 @@
 #'
 #' Note: Default parameter values are for _Plasmodium falciparum_
 #'
+#' Note: Some model outputs (for example _Plasmodium vivax_) do not include
+#' severe incidence (`n_inc_severe_...`) columns. When these are absent they are
+#' created to match the clinical incidence age groups and filled with `NA`, with
+#' a warning. The severe, mortality and DALY (`yld`, `yll`, `dalys`) columns in
+#' the returned output will then be `NA`.
+#'
 #' @param x Input data.frame
 #' @param baseline_year Baseline year (assumes simulation starts on the first day of the year)
 #' @param ages_as_years Convert ages to be in units of years
@@ -98,10 +104,22 @@ get_rates <- function(x,
   if(sum(grepl("n_inc_clinical", cols)) == 0){
     stop("required columns `n_inc_clinical_...` missing")
   }
-  if(sum(grepl("n_inc_severe", cols)) == 0){
-    stop("required columns `n_inc_severe_...` missing")
-  }
   clinical_cols <- colnames(x)[grepl("inc_clinical", colnames(x)) & !grepl("p_", colnames(x))]
+
+  # Some model outputs (e.g. P. vivax) have no severe incidence. If the
+  # `n_inc_severe_...` columns are missing, create them to match the clinical
+  # incidence age groups and fill with NA, so that the downstream severe,
+  # mortality and DALY columns are returned as NA rather than erroring.
+  if(sum(grepl("n_inc_severe", colnames(x))) == 0){
+    severe_names <- stringr::str_replace(clinical_cols, "inc_clinical", "inc_severe")
+    x[severe_names] <- NA_real_
+    warning(
+      "required columns `n_inc_severe_...` not found. Creating them to match the ",
+      "`n_inc_clinical_...` age groups and filling with NA. As a result the severe, ",
+      "mortality and DALY (`yld`, `yll`, `dalys`) columns in the output will be NA."
+    )
+  }
+
   severe_cols <- colnames(x)[grepl("inc_sev", colnames(x)) & !grepl("p_", colnames(x))]
   denominator_cols <- stringr::str_replace(clinical_cols, "inc_clinical", "age")
 

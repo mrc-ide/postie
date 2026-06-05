@@ -79,7 +79,7 @@ more details. However, we allow more flexibility. The user may specify a column
 This is then used to estimate community severe cases from model output hospitalised
 severe incidence. Hospitalised and community severe incidence are combined with
 estimates of the severe case fatality ratio for hospitalised severe cases (from data
-originally from Reyburn et al) and ciommunity severe cases (from data originally
+originally from Reyburn et al) and community severe cases (from data originally
 from Lubell et al). In the absence of a user specified ft_sev, a default of 0.8
 is used. This follows the original fit from Giffen et al (2016) and reproduces
 the original estimate of the ratio of total deaths to hospitalised cases of 0.215.
@@ -93,4 +93,10 @@ This is an approximation of YLD estimation from the GBD study; disability due to
 such as motor impairment and aneamia are excluded.
 
 Note: Default parameter values are for _Plasmodium falciparum_
+
+Note: Some model outputs (for example _Plasmodium vivax_) do not include
+severe incidence (`n_inc_severe_...`) columns. When these are absent they are
+created to match the clinical incidence age groups and filled with `NA`, with
+a warning. The severe, mortality and DALY (`yld`, `yll`, `dalys`) columns in
+the returned output will then be `NA`.
 }
