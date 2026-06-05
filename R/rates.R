@@ -79,7 +79,7 @@ get_rates <- function(x,
   }
   if(!"ft" %in% cols){
     if(infer_ft){
-      warning("required column `ft` not found, assumming ft = 0")
+      warning("required column `ft` not found, assuming ft = 0")
       x$ft <- 0
     } else {
       stop("required column `ft` missing")
@@ -89,7 +89,7 @@ get_rates <- function(x,
   }
   if(!"ft_sev" %in% colnames(x)){
     if(infer_ft_sev){
-      warning("required column `ft_sev` (probability hospitalisation | severe case) not found, assumming ft_sev = 0.8")
+      warning("required column `ft_sev` (probability hospitalisation | severe case) not found, assuming ft_sev = 0.8")
       x$ft_sev <- 0.8
     } else {
       stop("required column `ft_sev` (probability hospitalisation | severe case) missing")

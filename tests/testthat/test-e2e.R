@@ -39,7 +39,7 @@ test_that("Functions work on malariasimulation output", {
   s <- s[, !colnames(s) == "ft"]
   expect_warning(
     rate <- get_rates(s),
-    "required column `ft` not found, assumming ft = 0"
+    "required column `ft` not found, assuming ft = 0"
   )
   expect_type(rates, "list")
   expect_equal(names(rates), c("year", "month", "week", "day", "time",
