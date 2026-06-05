@@ -53,3 +53,14 @@ test_that("λ_C / λ_H ratio equals (1-ρ)/ρ for each row", {
                rep((1 - 0.8) / 0.8, nrow(out_default)),
                tolerance = 1e-12)
 })
+
+test_that("severe incidence is normalised to the f0 = 0.1 baseline treatment (Griffin 2016 SI)", {
+  f0 <- 0.1
+  ts <- 1 - chi
+  # With ft_sev = 0.8 the hospitalised severe incidence equals the raw model
+  # severe scaled by the treatment adjustment relative to the f0 baseline:
+  #   (ts * ft + (1 - ft)) / (ts * f0 + (1 - f0))
+  expected_hosp <- mock_data$severe *
+    (mock_data$ft * ts + (1 - mock_data$ft)) / (f0 * ts + (1 - f0))
+  expect_equal(out_default$severe_hospital, expected_hosp, tolerance = 1e-12)
+})

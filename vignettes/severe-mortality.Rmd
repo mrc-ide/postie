@@ -28,17 +28,21 @@ Postie first makes an adjustment to the incidence of severe cases output from *m
 
 We use:
 
--   **severe incidence** from malariasimulation ($s_{m}$)
+-   **severe incidence** from malariasimulation ($s_{m}$), which is the modelled incidence of *hospitalised* severe cases,
 
--   the **treatment coverage**, set in *malariasimulation*, ($t_x$)
+-   the **treatment coverage**, set in *malariasimulation* ($t_x$),
 
--   and the **probability a severe case does not get averted by early treatment** (\$\nu\$ default: 42% [1]).
+-   the **proportion of severe cases averted by early treatment** ($\nu$, default: 42% [1]),
 
-The postie severe incidence is then calculated:
+-   a **baseline treatment coverage** ($f_0$, default: 10%) — the treatment coverage assumed when the severe model was originally fitted in Griffin et al (2016),
 
-$$ s_p = s_m (1- t_x) + s_m t_x \nu $$
+-   and a **reference hospitalisation proportion** ($\rho_0 = 0.8$) used in that original fit.
 
-$\nu$ can be adjusted with the `treatment_scaler` argument in the `get_rates()` function of postie.
+Among the treated fraction of cases ($t_x$) a proportion $\nu$ of severe cases is averted, leaving $(1 - \nu)$. Because the modelled severe output corresponds to the baseline coverage $f_0$, the treatment adjustment is expressed *relative to* that baseline, following the Griffin et al (2016) SI. We also convert the modelled hospitalised severe incidence to total severe incidence using the reference hospitalisation proportion $\rho_0$. The postie (total) severe incidence is then:
+
+$$ s_p = \frac{s_m}{\rho_0} \cdot \frac{(1 - \nu)\,t_x + (1 - t_x)}{(1 - \nu)\,f_0 + (1 - f_0)} $$
+
+$\nu$ can be adjusted with the `treatment_scaler` argument in the `get_rates()` function of postie. The baseline coverage $f_0$ and reference hospitalisation $\rho_0$ are fixed internally so that results stay consistent with the original Griffin (2016) calibration (and recover the original 0.215 deaths-to-hospitalised-severe ratio when the defaults are used).
 
 ## Mortality
 
