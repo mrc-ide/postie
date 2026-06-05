@@ -69,6 +69,11 @@ hospital admission. When it is missing `get_rates()` assumes a value of
 0.8 and prints a warning. By supplying your own column before calling the
 function you can control this assumption and remove the warning.
 
+For the full methodology behind how postie adjusts severe incidence and
+derives mortality from `ft_sev` (and the related `treatment_scaler`,
+`hosp_sev_cfr` and `community_sev_cfr` arguments), see the
+`vignette("severe-mortality")`.
+
 The rates are per person per day. Multiplying by `365` converts them to
 the more familiar per person per year units.
 

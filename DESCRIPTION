@@ -19,10 +19,14 @@ Imports:
     stats,
     stringr,
     tidyr
-Suggests: 
+Suggests:
+    ggplot2,
+    knitr,
     malariasimulation,
+    rmarkdown,
     roxygen2,
     testthat (>= 3.0.0)
 Config/testthat/edition: 3
-Depends: 
+Depends:
     R (>= 3.5)
+VignetteBuilder: knitr
