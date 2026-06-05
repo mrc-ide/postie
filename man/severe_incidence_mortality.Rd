@@ -2,7 +2,7 @@
 % Please edit documentation in R/epi.R
 \name{severe_incidence_mortality}
 \alias{severe_incidence_mortality}
-\title{Adjust severe rates as a result of treatment coverage, dis-aggregated by hospitalised and community and estimate mortality}
+\title{Adjust severe rates as a result of treatment coverage and estimate mortality disaggregated by hospitalised and community}
 \usage{
 severe_incidence_mortality(
   x,
