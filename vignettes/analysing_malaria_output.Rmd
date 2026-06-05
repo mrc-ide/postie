@@ -1,0 +1,137 @@
+---
+title: "Analysing malariasimulation output with postie"
+output: rmarkdown::html_vignette
+vignette: >
+  %\VignetteIndexEntry{Analysing malariasimulation output with postie}
+  %\VignetteEngine{knitr::rmarkdown}
+  %\VignetteEncoding{UTF-8}
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(
+  collapse = TRUE,
+  comment = "#>"
+)
+```
+
+Postie provides tools to post-process output from
+[malariasimulation](https://mrc-ide.github.io/malariasimulation/).
+This vignette runs a short example simulation and explores how to
+summarise the resulting prevalence and incidence estimates.
+
+## Running a basic simulation
+
+```{r}
+# install.packages("malariasimulation")
+library(malariasimulation)
+library(postie)
+library(dplyr)
+library(ggplot2)
+
+# set up parameters
+year <- 365
+p <- get_parameters() |>
+  set_drugs(list(AL_params)) |>
+  set_clinical_treatment(1, 0.5, 0.5) |>
+  set_epi_outputs(
+    age_group = c(0, 5, 15, 200) * year,
+    prevalence = c(2, 10) * year,
+    clinical_incidence = c(0, 5, 15, 200) * year,
+    severe_incidence = c(0, 5, 15, 200) * year
+  )
+
+# run for two years
+sim <- run_simulation(2 * year, p)
+```
+
+The object `sim` is a data frame containing the time series of all
+requested outputs. Postie converts these counts into rates that are
+easier to interpret.
+
+## Rates and prevalence
+
+```{r}
+rates <- get_rates(sim)
+#> Warning: required column `ft_sev` (probability hospitalisation | severe case) not found, assuming ft_sev = 0.8
+head(rates)
+
+sim <- dplyr::mutate(sim, ft_sev = 0.5)
+rates <- get_rates(sim)
+
+prev <- get_prevalence(sim)
+head(prev)
+```
+
+### Handling `ft_sev`
+
+The column `ft_sev` contains the probability that a severe case leads to
+hospital admission. When it is missing `get_rates()` assumes a value of
+0.8 and prints a warning. By supplying your own column before calling the
+function you can control this assumption and remove the warning.
+
+The rates are per person per day. Multiplying by `365` converts them to
+the more familiar per person per year units.
+
+
+
+```{r}
+prev |>
+  ggplot(aes(time, lm_prevalence_2_10)) +
+  theme_bw() +
+  geom_line() +
+  labs(y = expression(PfPr[2-10]))
+```
+
+## Units and time aggregation
+
+Rates returned by `get_rates()` are expressed per person per day. The unit
+is separate from the time interval over which values are aggregated. You
+can therefore average rates by month or year while still reporting them as
+cases per person per year by multiplying by `365`.
+
+## Aggregating over time and age
+
+The flexibility of postie means you can aggregate outputs in many ways.
+For example, to obtain annual clinical incidence and mortality by the
+three age groups:
+
+```{r}
+summary <- rates |>
+  mutate(
+    age_group = case_when(
+      age_upper <= 5 ~ "U5",
+      age_upper <= 15 ~ "5-15",
+      TRUE ~ "15+"
+    )
+  ) |>
+  summarise(
+    clinical = weighted.mean(clinical, person_days) * 365,
+    mortality = weighted.mean(mortality, person_days) * 365,
+    person_days = sum(person_days),
+    time = mean(time),
+    .by = c(year, age_group)
+  )
+summary
+```
+
+Aggregating by both year and month can reveal seasonal patterns. The
+following code collapses the daily values to monthly rates and plots the
+clinical incidence over time.
+
+```{r}
+monthly <- rates |>
+  summarise(
+    clinical = weighted.mean(clinical, person_days) * 365,
+    time = mean(time),
+    .by = c(year, month)
+  )
+
+monthly |>
+  ggplot(aes(time, clinical)) +
+  theme_bw() +
+  geom_line() +
+  labs(y = "clinical per person per year")
+```
+
+Postie therefore provides a straightforward pipeline from raw model output to tidy, aggregated indicators ready for further analysis or visualisation.
+
