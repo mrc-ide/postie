@@ -1,8 +1,23 @@
 #' Extract basic rates from malariasimulation model output
 #'
-#' Summarises clinical incidence `clinical`, severe incidence `severe` and mortality `mortality`
+#' Summarises clinical incidence `clinical`, severe incidence `severe` and mortality `mortality`.
+#' Output also includes `severe` and `mortality` outputs broken down by in
+#' hospital (`_hospital`) or in the community (`_community`)
 #' rates as well as per-capita years lived with disability `yld`, years of life
 #' lost `yll` and daly `dalys`. All rates are expressed per person per day.
+#'
+#' A note on severe disease and deaths: We follow an approach that broadly aligns
+#' with the methods presented by Griffen et al (2016), See
+#' \href{https://www.thelancet.com/journals/laninf/article/PIIS1473-3099(15)00423-5/fulltext}{Griffin et al (2016)} SI for
+#' more details. However, we allow more flexibility. The user may specify a column
+#' `ft_sev` to signify the assumed proportion of severe cases that receive hospital treatment.
+#' This is then used to estimate community severe cases from model output hospitalised
+#' severe incidence. Hospitalised and community severe incidence are combined with
+#' estimates of the severe case fatality ratio for hospitalised severe cases (from data
+#' originally from Reyburn et al) and community severe cases (from data originally
+#' from Lubell et al). In the absence of a user specified ft_sev, a default of 0.8
+#' is used. This follows the original fit from Giffen et al (2016) and reproduces
+#' the original estimate of the ratio of total deaths to hospitalised cases of 0.215.
 #'
 #' For DALYs: disability weights are from the Global Burden of Disease study. To estimate
 #' YLL we assume the average life expectancy for a person aged x years taken from the UN WPP
@@ -14,13 +29,16 @@
 #'
 #' Note: Default parameter values are for _Plasmodium falciparum_
 #'
+#' Note: Some model outputs (for example _Plasmodium vivax_) do not include
+#' severe incidence (`n_inc_severe_...`) columns. When these are absent they are
+#' created to match the clinical incidence age groups and filled with `NA`, with
+#' a warning. The severe, mortality and DALY (`yld`, `yll`, `dalys`) columns in
+#' the returned output will then be `NA`.
+#'
 #' @param x Input data.frame
 #' @param baseline_year Baseline year (assumes simulation starts on the first day of the year)
 #' @param ages_as_years Convert ages to be in units of years
-#' @param scaler Scaler for severe cases to deaths. The
-#' original fitted scaler for P. falciparum is 0.215. See
-#' \href{https://www.thelancet.com/journals/laninf/article/PIIS1473-3099(15)00423-5/fulltext}{Griffin et al (2016)}.
-#' @param treatment_scaler The impact of treatment coverage on progression to severe disease and death.
+#' @param treatment_scaler The impact of first-line treatment coverage on progression to severe disease and death.
 #' The probability of being hospitalised for untreated cases compared to treated cases is difficult to study and is not known, but can
 #' be estimated from available data with several assumptions. Our estimate is derived from data used in a meta-analysis on the impact
 #' of delayed treatment of uncomplicated malaria on progression to severe malaria
@@ -32,6 +50,10 @@
 #' analysis a range of 0.281-0.843 should be considered for the treatment scaler, which was derived by assuming the risk among untreated cases
 #' would be the same as the risk with a treatment delay of >3 days (lower estimate) or 3 times the risk as those with a treatment delay of
 #' >3 days (upper estimate).
+#' @param hosp_sev_cfr Severe case fatality ratio in hospital
+#' The original estimate fitted to Reyburn et al data in Griffin et al (2016) 0.065
+#' @param community_sev_cfr Severe case fatality ratio in the commnity (non-hospitalised)
+#' The original estimate fitted to Lubell et al data in Griffin et al (2016) 0.6
 #' @param mild_disability_weight disability weight for mild malaria. Assigned to clinical cases in those over 5 years old
 #' @param moderate_disability_weight disability weight for moderate malaria. Assigned to clinical cases in those under 5 years old
 #' @param severe_disability_weight disability weight for severe malaria. Assigned to all severe cases
@@ -39,19 +61,23 @@
 #' @param severe_episode_length average length of an episode of severe malaria
 #' @param life_expectancy data.frame of expected years left to live. See example in data for format
 #' @param infer_ft If ft not found in model output (usually if ft = 0), assume ft = 0. If FALSE an error will be thrown
+#' @param infer_ft_sev If ft_sev not found in model output assume ft_sev = 0.8. If FALSE an error will be thrown
 #'
 #' @export
 get_rates <- function(x,
-                      baseline_year = 2000, ages_as_years = TRUE,
-                      scaler = 0.215,
+                      baseline_year = 2000,
+                      ages_as_years = TRUE,
                       treatment_scaler = 0.42,
+                      hosp_sev_cfr = 0.065,
+                      community_sev_cfr = 0.60,
                       mild_disability_weight = 0.006,
                       moderate_disability_weight = 0.051,
                       severe_disability_weight = 0.133,
                       clinical_episode_length = 0.01375,
                       severe_episode_length = 0.04795,
                       life_expectancy = life_expectancy_africa,
-                      infer_ft = TRUE
+                      infer_ft = TRUE,
+                      infer_ft_sev = TRUE
 ){
   cols <- colnames(x)
   if(!"timestep" %in% cols){
@@ -59,7 +85,7 @@ get_rates <- function(x,
   }
   if(!"ft" %in% cols){
     if(infer_ft){
-      warning("required column `ft` not found, assumming ft = 0")
+      warning("required column `ft` not found, assuming ft = 0")
       x$ft <- 0
     } else {
       stop("required column `ft` missing")
@@ -67,13 +93,33 @@ get_rates <- function(x,
   } else {
     x$ft[is.na(x$ft)] <- 0
   }
+  if(!"ft_sev" %in% colnames(x)){
+    if(infer_ft_sev){
+      warning("required column `ft_sev` (probability hospitalisation | severe case) not found, assuming ft_sev = 0.8")
+      x$ft_sev <- 0.8
+    } else {
+      stop("required column `ft_sev` (probability hospitalisation | severe case) missing")
+    }
+  }
   if(sum(grepl("n_inc_clinical", cols)) == 0){
     stop("required columns `n_inc_clinical_...` missing")
   }
-  if(sum(grepl("n_inc_severe", cols)) == 0){
-    stop("required columns `n_inc_severe_...` missing")
-  }
   clinical_cols <- colnames(x)[grepl("inc_clinical", colnames(x)) & !grepl("p_", colnames(x))]
+
+  # Some model outputs (e.g. P. vivax) have no severe incidence. If the
+  # `n_inc_severe_...` columns are missing, create them to match the clinical
+  # incidence age groups and fill with NA, so that the downstream severe,
+  # mortality and DALY columns are returned as NA rather than erroring.
+  if(sum(grepl("n_inc_severe", colnames(x))) == 0){
+    severe_names <- stringr::str_replace(clinical_cols, "inc_clinical", "inc_severe")
+    x[severe_names] <- NA_real_
+    warning(
+      "required columns `n_inc_severe_...` not found. Creating them to match the ",
+      "`n_inc_clinical_...` age groups and filling with NA. As a result the severe, ",
+      "mortality and DALY (`yld`, `yll`, `dalys`) columns in the output will be NA."
+    )
+  }
+
   severe_cols <- colnames(x)[grepl("inc_sev", colnames(x)) & !grepl("p_", colnames(x))]
   denominator_cols <- stringr::str_replace(clinical_cols, "inc_clinical", "age")
 
@@ -82,19 +128,17 @@ get_rates <- function(x,
   }
 
   rates <- x |>
-    dplyr::select(dplyr::all_of(c("timestep", "ft", clinical_cols, severe_cols, denominator_cols))) |>
+    dplyr::select(dplyr::all_of(c("timestep", "ft", "ft_sev", clinical_cols, severe_cols, denominator_cols))) |>
     rates_format(
       clinical_cols = clinical_cols,
       severe_cols = severe_cols,
       denominator_cols = denominator_cols,
       ages_as_years = ages_as_years
     ) |>
-    treatment_scaling(
+    severe_incidence_mortality(
       treatment_scaler = treatment_scaler,
-      baseline_treatment = 0.1
-    ) |>
-    mortality_rate(
-      scaler = scaler
+      hosp_sev_cfr = hosp_sev_cfr,
+      community_sev_cfr = community_sev_cfr
     ) |>
     format_time(
       baseline_year = baseline_year
@@ -111,7 +155,9 @@ get_rates <- function(x,
     dplyr::select(c(
       "year", "month", "week", "day", "time",
       "age_lower", "age_upper",
-      "clinical", "severe", "mortality",
+      "clinical",
+      "severe_hospital", "severe_community",  "severe",
+      "mortality_hospital", "mortality_community", "mortality",
       "yld", "yll", "dalys",
       "person_days"))
 
@@ -134,10 +180,10 @@ rates_format <- function(x, clinical_cols, severe_cols, denominator_cols, ages_a
     dplyr::rename_with( ~ gsub("n_inc_", "", .x, fixed = TRUE), .cols = dplyr::all_of(severe_cols)) |>
     dplyr::rename_with( ~ gsub("age_", "", .x, fixed = TRUE), .cols = dplyr::all_of(denominator_cols)) |>
     tidyr::pivot_longer(
-      cols = -c("timestep", "ft")
+      cols = -c("timestep", "ft", "ft_sev")
     ) |>
     tidyr::separate_wider_delim("name", "_", names = c("name", "age_lower", "age_upper")) |>
-    tidyr::pivot_wider(id_cols = c("timestep", "ft", "age_lower", "age_upper"), names_from = "name", values_from = "value") |>
+    tidyr::pivot_wider(id_cols = c("timestep", "ft", "ft_sev", "age_lower", "age_upper"), names_from = "name", values_from = "value") |>
     dplyr::mutate(
       clinical = .data$clinical / .data$n,
       severe = .data$severe / .data$n,
