@@ -1,0 +1,152 @@
+# Extract basic rates from malariasimulation model output
+
+Summarises clinical incidence \`clinical\`, severe incidence \`severe\`
+and mortality \`mortality\`. Output also includes \`severe\` and
+\`mortality\` outputs broken down by in hospital (\`\_hospital\`) or in
+the community (\`\_community\`) rates as well as per-capita years lived
+with disability \`yld\`, years of life lost \`yll\` and daly \`dalys\`.
+All rates are expressed per person per day.
+
+## Usage
+
+``` r
+get_rates(
+  x,
+  baseline_year = 2000,
+  ages_as_years = TRUE,
+  treatment_scaler = 0.42,
+  hosp_sev_cfr = 0.065,
+  community_sev_cfr = 0.6,
+  mild_disability_weight = 0.006,
+  moderate_disability_weight = 0.051,
+  severe_disability_weight = 0.133,
+  clinical_episode_length = 0.01375,
+  severe_episode_length = 0.04795,
+  life_expectancy = life_expectancy_africa,
+  infer_ft = TRUE,
+  infer_ft_sev = TRUE
+)
+```
+
+## Arguments
+
+- x:
+
+  Input data.frame
+
+- baseline_year:
+
+  Baseline year (assumes simulation starts on the first day of the year)
+
+- ages_as_years:
+
+  Convert ages to be in units of years
+
+- treatment_scaler:
+
+  The impact of first-line treatment coverage on progression to severe
+  disease and death. The probability of being hospitalised for untreated
+  cases compared to treated cases is difficult to study and is not
+  known, but can be estimated from available data with several
+  assumptions. Our estimate is derived from data used in a meta-analysis
+  on the impact of delayed treatment of uncomplicated malaria on
+  progression to severe malaria [(Mousa et al, 2020, Plos
+  Medicine)](https://journals.plos.org/plosmedicine/article?id=10.1371/journal.pmed.1003359),
+  which estimated the relative risk ratio for treatment delays of 1-2,
+  2-3 and \>3 days compared to treatment within 1 day. Here, we assume
+  that the risk of hospitalisation with severe malaria among untreated
+  cases would be double the risk in this last “delay category” of \>3
+  days (2 \* RR 1.186), giving a relative risk of any severe malaria of
+  0.578 for treatment within 1 day compared to no treatment (i.e. a
+  treatment scaler of 0.42 for the proportion of severe malaria cases
+  that are prevented by treatment of uncomplicated malaria). However, in
+  sensitivity analysis a range of 0.281-0.843 should be considered for
+  the treatment scaler, which was derived by assuming the risk among
+  untreated cases would be the same as the risk with a treatment delay
+  of \>3 days (lower estimate) or 3 times the risk as those with a
+  treatment delay of \>3 days (upper estimate).
+
+- hosp_sev_cfr:
+
+  Severe case fatality ratio in hospital The original estimate fitted to
+  Reyburn et al data in Griffin et al (2016) 0.065
+
+- community_sev_cfr:
+
+  Severe case fatality ratio in the commnity (non-hospitalised) The
+  original estimate fitted to Lubell et al data in Griffin et al (2016)
+  0.6
+
+- mild_disability_weight:
+
+  disability weight for mild malaria. Assigned to clinical cases in
+  those over 5 years old
+
+- moderate_disability_weight:
+
+  disability weight for moderate malaria. Assigned to clinical cases in
+  those under 5 years old
+
+- severe_disability_weight:
+
+  disability weight for severe malaria. Assigned to all severe cases
+
+- clinical_episode_length:
+
+  average length of an episode of clinical malaria
+
+- severe_episode_length:
+
+  average length of an episode of severe malaria
+
+- life_expectancy:
+
+  data.frame of expected years left to live. See example in data for
+  format
+
+- infer_ft:
+
+  If ft not found in model output (usually if ft = 0), assume ft = 0. If
+  FALSE an error will be thrown
+
+- infer_ft_sev:
+
+  If ft_sev not found in model output assume ft_sev = 0.8. If FALSE an
+  error will be thrown
+
+## Details
+
+A note on severe disease and deaths: We follow an approach that broadly
+aligns with the methods presented by Griffen et al (2016), See [Griffin
+et al
+(2016)](https://www.thelancet.com/journals/laninf/article/PIIS1473-3099(15)00423-5/fulltext)
+SI for more details. However, we allow more flexibility. The user may
+specify a column \`ft_sev\` to signify the assumed proportion of severe
+cases that receive hospital treatment. This is then used to estimate
+community severe cases from model output hospitalised severe incidence.
+Hospitalised and community severe incidence are combined with estimates
+of the severe case fatality ratio for hospitalised severe cases (from
+data originally from Reyburn et al) and community severe cases (from
+data originally from Lubell et al). In the absence of a user specified
+ft_sev, a default of 0.8 is used. This follows the original fit from
+Giffen et al (2016) and reproduces the original estimate of the ratio of
+total deaths to hospitalised cases of 0.215.
+
+For DALYs: disability weights are from the Global Burden of Disease
+study. To estimate YLL we assume the average life expectancy for a
+person aged x years taken from the UN WPP sub-Saharan-Africa profile. To
+estimate the expected age in a given range we assume exponentially
+distributed ages with the range. Disability weights sourced:
+[here](https://ghdx.healthdata.org/record/ihme-data/gbd-2017-disability-weights).
+This is an approximation of YLD estimation from the GBD study;
+disability due to comorbid conditions such as motor impairment and
+aneamia are excluded.
+
+Note: Default parameter values are for \_Plasmodium falciparum\_
+
+Note: Some model outputs (for example \_Plasmodium vivax\_) do not
+include severe incidence (\`n_inc_severe\_...\`) columns. When these are
+absent they are created to match the clinical incidence age groups and
+filled with \`NA\`, with a warning. The severe, mortality and DALY
+(\`yld\`, \`yll\`, \`dalys\`) columns in the returned output will then
+be \`NA\`.

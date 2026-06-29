@@ -1,0 +1,518 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<!-- Created with Inkscape (http://www.inkscape.org/) -->
+
+<svg
+   width="129.43689mm"
+   height="22.887367mm"
+   viewBox="0 0 129.43689 22.887367"
+   version="1.1"
+   id="svg1"
+   inkscape:version="1.4.2 (f4327f4, 2025-05-13)"
+   sodipodi:docname="postie-severe-mortality-schematic.svg"
+   inkscape:export-filename="postie-severe-mortality-schematic.svg"
+   inkscape:export-xdpi="8.5521889"
+   inkscape:export-ydpi="8.5521889"
+   xmlns:inkscape="http://www.inkscape.org/namespaces/inkscape"
+   xmlns:sodipodi="http://sodipodi.sourceforge.net/DTD/sodipodi-0.dtd"
+   xmlns="http://www.w3.org/2000/svg"
+   xmlns:svg="http://www.w3.org/2000/svg">
+  <sodipodi:namedview
+     id="namedview1"
+     pagecolor="#ffffff"
+     bordercolor="#000000"
+     borderopacity="0.25"
+     inkscape:showpageshadow="2"
+     inkscape:pageopacity="0.0"
+     inkscape:pagecheckerboard="0"
+     inkscape:deskcolor="#d1d1d1"
+     inkscape:document-units="mm"
+     inkscape:zoom="1.1381399"
+     inkscape:cx="208.2345"
+     inkscape:cy="359.79759"
+     inkscape:window-width="1920"
+     inkscape:window-height="1111"
+     inkscape:window-x="-9"
+     inkscape:window-y="-9"
+     inkscape:window-maximized="1"
+     inkscape:current-layer="g50">
+    <inkscape:page
+       x="0"
+       y="0"
+       width="129.43689"
+       height="22.887367"
+       id="page2"
+       margin="0"
+       bleed="0" />
+  </sodipodi:namedview>
+  <defs
+     id="defs1" />
+  <g
+     inkscape:label="Layer 1"
+     inkscape:groupmode="layer"
+     id="layer1"
+     transform="translate(-31.577454,-21.067439)">
+    <g
+       transform="matrix(0.10204667,0,0,0.10204667,31.840264,1.5594843)"
+       id="g50"
+       inkscape:export-filename="postie-severe-mortality-schematic.svg"
+       inkscape:export-xdpi="96"
+       inkscape:export-ydpi="96">
+      <path
+         d="m -1.2420437,271.167 c 0,-7.548 6.1187998,-13.667 13.6668997,-13.667 h 86.665988 c 7.547996,0 13.666996,6.119 13.666996,13.667 v 54.666 c 0,7.548 -6.119,13.667 -13.666996,13.667 H 12.424856 c -7.5480999,0 -13.6668997,-6.119 -13.6668997,-13.667 z"
+         stroke="#4d5e5f"
+         stroke-width="2.66667"
+         stroke-linecap="round"
+         stroke-linejoin="round"
+         stroke-miterlimit="10"
+         fill="#f1ee80"
+         fill-rule="evenodd"
+         id="path1"
+         inkscape:export-filename="postie-severe-mortality-schematic.svg"
+         inkscape:export-xdpi="96"
+         inkscape:export-ydpi="96" />
+      <text
+         font-family="Arial, Arial_MSFontService, sans-serif"
+         font-style="italic"
+         font-weight="400"
+         font-size="19px"
+         id="text1"
+         x="25.008858"
+         y="282">Clinical</text>
+      <text
+         font-family="Arial, Arial_MSFontService, sans-serif"
+         font-style="italic"
+         font-weight="400"
+         font-size="19px"
+         id="text2"
+         x="15.762259"
+         y="305">incidence</text>
+      <text
+         font-family="Arial, Arial_MSFontService, sans-serif"
+         font-weight="700"
+         font-size="19px"
+         id="text3"
+         x="16.762257"
+         y="327">(</text>
+      <text
+         font-family="Arial, Arial_MSFontService, sans-serif"
+         font-weight="700"
+         font-size="19px"
+         id="text4"
+         x="22.92886"
+         y="327">m</text>
+      <text
+         font-family="Arial, Arial_MSFontService, sans-serif"
+         font-weight="700"
+         font-size="19px"
+         id="text5"
+         x="39.595558"
+         y="327">alsim)</text>
+      <path
+         d="m 586.5,224.167 c 0,-7.548 6.119,-13.667 13.667,-13.667 h 90.666 c 7.548,0 13.667,6.119 13.667,13.667 v 54.666 c 0,7.548 -6.119,13.667 -13.667,13.667 h -90.666 c -7.548,0 -13.667,-6.119 -13.667,-13.667 z"
+         stroke="#4d5e5f"
+         stroke-width="2.66667"
+         stroke-linecap="round"
+         stroke-linejoin="round"
+         stroke-miterlimit="10"
+         fill="#a3a3e0"
+         fill-rule="evenodd"
+         id="path5" />
+      <text
+         font-family="Arial, Arial_MSFontService, sans-serif"
+         font-style="italic"
+         font-weight="400"
+         font-size="19px"
+         transform="translate(615.639,235)"
+         id="text6">S</text>
+      <text
+         font-family="Arial, Arial_MSFontService, sans-serif"
+         font-style="italic"
+         font-weight="400"
+         font-size="19px"
+         transform="translate(628.139,235)"
+         id="text7">evere</text>
+      <text
+         font-family="Arial, Arial_MSFontService, sans-serif"
+         font-style="italic"
+         font-weight="400"
+         font-size="19px"
+         transform="translate(605.805,258)"
+         id="text8">i</text>
+      <text
+         font-family="Arial, Arial_MSFontService, sans-serif"
+         font-style="italic"
+         font-weight="400"
+         font-size="19px"
+         transform="translate(609.972,258)"
+         id="text9">ncidence</text>
+      <text
+         font-family="Arial, Arial_MSFontService, sans-serif"
+         font-weight="700"
+         font-size="19px"
+         transform="translate(611.639,280)"
+         id="text10">(postie)</text>
+      <path
+         d="m 1147.5,285.167 c 0,-7.548 6.12,-13.667 13.67,-13.667 h 89.66 c 7.55,0 13.67,6.119 13.67,13.667 v 54.666 c 0,7.548 -6.12,13.667 -13.67,13.667 h -89.66 c -7.55,0 -13.67,-6.119 -13.67,-13.667 z"
+         stroke="#4d5e5f"
+         stroke-width="2.66667"
+         stroke-linecap="round"
+         stroke-linejoin="round"
+         stroke-miterlimit="10"
+         fill="#bd1919"
+         fill-rule="evenodd"
+         id="path10" />
+      <text
+         font-family="Arial, Arial_MSFontService, sans-serif"
+         font-style="italic"
+         font-weight="400"
+         font-size="19px"
+         transform="translate(1175.1,308)"
+         id="text11">Malaria</text>
+      <text
+         font-family="Arial, Arial_MSFontService, sans-serif"
+         font-style="italic"
+         font-weight="400"
+         font-size="19px"
+         transform="translate(1182.35,331)"
+         id="text12">death</text>
+      <path
+         d="m 114.00845,299.48123 24.43749,-36.90013 c 0.4575,-0.6907 0.2684,-1.6214 -0.4223,-2.0788 -0.6907,-0.4575 -1.6215,-0.2684 -2.0789,0.4223 l -24.43751,36.90017 c -0.45742,0.69069 -0.26832,1.62142 0.42238,2.07884 0.6907,0.45742 1.62143,0.26832 2.07884,-0.42238 z m 26.11049,-33.99303 1.2176,-9.9884 -8.7212,5.019 z"
+         id="path12" />
+      <path
+         d="m 824.5,224.167 c 0,-7.548 6.119,-13.667 13.667,-13.667 h 93.666 c 7.548,0 13.667,6.119 13.667,13.667 v 54.666 c 0,7.548 -6.119,13.667 -13.667,13.667 h -93.666 c -7.548,0 -13.667,-6.119 -13.667,-13.667 z"
+         stroke="#4d5e5f"
+         stroke-width="2.66667"
+         stroke-linecap="round"
+         stroke-linejoin="round"
+         stroke-miterlimit="10"
+         fill="#ff5050"
+         fill-rule="evenodd"
+         id="path13" />
+      <text
+         font-family="Arial, Arial_MSFontService, sans-serif"
+         font-style="italic"
+         font-weight="400"
+         font-size="19px"
+         transform="translate(850.807,257)"
+         id="text13">Hospital</text>
+      <path
+         d="m 823.5,320.167 c 0,-7.548 6.119,-13.667 13.667,-13.667 h 94.666 c 7.548,0 13.667,6.119 13.667,13.667 v 54.666 c 0,7.548 -6.119,13.667 -13.667,13.667 h -94.666 c -7.548,0 -13.667,-6.119 -13.667,-13.667 z"
+         stroke="#4d5e5f"
+         stroke-width="2.66667"
+         stroke-linecap="round"
+         stroke-linejoin="round"
+         stroke-miterlimit="10"
+         fill="#ff5050"
+         fill-rule="evenodd"
+         id="path14" />
+      <text
+         font-family="Arial, Arial_MSFontService, sans-serif"
+         font-style="italic"
+         font-weight="400"
+         font-size="19px"
+         transform="translate(837.07,354)"
+         id="text14">Community</text>
+      <path
+         d="m 704,249.167 h 59.908 c 1.012,0 1.833,0.82 1.833,1.833 v 0.058 l -1.833,-1.833 h 50.741 c 1.012,0 1.833,0.821 1.833,1.833 0,1.013 -0.821,1.834 -1.833,1.834 h -50.741 c -1.013,0 -1.834,-0.821 -1.834,-1.834 V 251 l 1.834,1.833 H 704 c -1.013,0 -1.833,-0.82 -1.833,-1.833 0,-1.013 0.82,-1.833 1.833,-1.833 z m 108.815,-3.609 11,5.5 -11,5.5 z"
+         id="path15" />
+      <path
+         d="m 704,249.167 h 42.858 c 1.012,0 1.833,0.82 1.833,1.833 v 96.322 l -1.833,-1.834 h 67.469 c 1.013,0 1.834,0.821 1.834,1.834 0,1.012 -0.821,1.833 -1.834,1.833 h -67.469 c -1.013,0 -1.834,-0.821 -1.834,-1.833 V 251 l 1.834,1.833 H 704 c -1.013,0 -1.833,-0.82 -1.833,-1.833 0,-1.013 0.82,-1.833 1.833,-1.833 z m 108.494,92.655 11,5.5 -11,5.5 z"
+         id="path16" />
+      <path
+         d="m 0,-1.83333 h 66.8281 c 1.0126,0 1.8334,0.82081 1.8334,1.83333 V 101.617 L 66.8281,99.7838 H 124.49 c 1.012,0 1.833,0.8212 1.833,1.8332 0,1.013 -0.821,1.833 -1.833,1.833 H 66.8281 c -1.0125,0 -1.8333,-0.82 -1.8333,-1.833 V 0 l 1.8333,1.83333 H 0 c -1.01252,0 -1.83333,-0.82081 -1.83333,-1.83333 0,-1.01252 0.82081,-1.83333 1.83333,-1.83333 z m 122.656,97.95043 11,5.4999 -11,5.5 z"
+         transform="matrix(1,0,0,-1,1014,413.617)"
+         id="path17" />
+      <path
+         d="m 1014,191.167 h 66.78 c 1.02,0 1.84,0.82 1.84,1.833 v 118.924 l -1.84,-1.833 h 57.62 c 1.01,0 1.83,0.82 1.83,1.833 0,1.013 -0.82,1.833 -1.83,1.833 h -57.62 c -1.01,0 -1.83,-0.82 -1.83,-1.833 V 193 l 1.83,1.833 H 1014 c -1.01,0 -1.83,-0.82 -1.83,-1.833 0,-1.013 0.82,-1.833 1.83,-1.833 z m 122.57,115.257 11,5.5 -11,5.5 z"
+         id="path18" />
+      <text
+         font-family="Verdana, Verdana_MSFontService, sans-serif"
+         font-style="italic"
+         font-weight="400"
+         font-size="16px"
+         transform="translate(497.561,269)"
+         id="text18">ν</text>
+      <text
+         font-family="Verdana, Verdana_MSFontService, sans-serif"
+         font-style="italic"
+         font-weight="400"
+         font-size="16px"
+         transform="translate(512.727,269)"
+         id="text19">= 0.</text>
+      <text
+         font-family="Verdana, Verdana_MSFontService, sans-serif"
+         font-style="italic"
+         font-weight="400"
+         font-size="16px"
+         transform="translate(547.561,269)"
+         id="text20">42</text>
+      <text
+         font-family="Verdana, Verdana_MSFontService, sans-serif"
+         font-style="italic"
+         font-weight="400"
+         font-size="16px"
+         id="text20-8"
+         x="295.1998"
+         y="281.84586">t<tspan
+   style="font-size:65%;baseline-shift:sub"
+   id="tspan1">x</tspan></text>
+      <text
+         font-family="Verdana, Verdana_MSFontService, sans-serif"
+         font-style="italic"
+         font-weight="400"
+         font-size="16px"
+         id="text20-8-1"
+         x="286.10425"
+         y="230.83417">1-t<tspan
+   style="font-size:65%;baseline-shift:sub"
+   id="tspan1-7">x</tspan></text>
+      <text
+         font-family="Verdana, Verdana_MSFontService, sans-serif"
+         font-style="italic"
+         font-weight="400"
+         font-size="16px"
+         transform="translate(758.552,239)"
+         id="text21">ρ</text>
+      <text
+         font-family="Verdana, Verdana_MSFontService, sans-serif"
+         font-style="italic"
+         font-weight="400"
+         font-size="16px"
+         transform="translate(774.218,239)"
+         id="text22">= 0.8</text>
+      <text
+         font-family="Verdana, Verdana_MSFontService, sans-serif"
+         font-style="italic"
+         font-weight="400"
+         font-size="16px"
+         transform="translate(964.667,249)"
+         id="text23">µ</text>
+      <text
+         font-family="Verdana, Verdana_MSFontService, sans-serif"
+         font-style="italic"
+         font-weight="400"
+         font-size="11px"
+         transform="translate(975,252)"
+         id="text24">H</text>
+      <text
+         font-family="Verdana, Verdana_MSFontService, sans-serif"
+         font-style="italic"
+         font-weight="400"
+         font-size="16px"
+         transform="translate(988.667,249)"
+         id="text25">= 0.065</text>
+      <text
+         font-family="Verdana, Verdana_MSFontService, sans-serif"
+         font-style="italic"
+         font-weight="400"
+         font-size="16px"
+         transform="translate(975.084,349)"
+         id="text26">µ</text>
+      <text
+         font-family="Verdana, Verdana_MSFontService, sans-serif"
+         font-style="italic"
+         font-weight="400"
+         font-size="11px"
+         transform="translate(985.417,352)"
+         id="text27">C</text>
+      <text
+         font-family="Verdana, Verdana_MSFontService, sans-serif"
+         font-style="italic"
+         font-weight="400"
+         font-size="16px"
+         transform="translate(998.584,349)"
+         id="text28">=</text>
+      <text
+         font-family="Verdana, Verdana_MSFontService, sans-serif"
+         font-style="italic"
+         font-weight="400"
+         font-size="16px"
+         transform="translate(1017.42,349)"
+         id="text29">0.6</text>
+      <path
+         d="m 140.75784,228.167 c 0,-7.548 6.119,-13.667 13.667,-13.667 h 99.666 c 7.548,0 13.667,6.119 13.667,13.667 v 54.666 c 0,7.548 -6.119,13.667 -13.667,13.667 h -99.666 c -7.548,0 -13.667,-6.119 -13.667,-13.667 z"
+         stroke="#4d5e5f"
+         stroke-width="2.66667"
+         stroke-linecap="round"
+         stroke-linejoin="round"
+         stroke-miterlimit="10"
+         fill="#f1ee80"
+         fill-rule="evenodd"
+         id="path29" />
+      <text
+         font-family="Arial, Arial_MSFontService, sans-serif"
+         font-style="italic"
+         font-weight="400"
+         font-size="19px"
+         id="text30"
+         x="174.25787"
+         y="239">Severe</text>
+      <text
+         font-family="Arial, Arial_MSFontService, sans-serif"
+         font-style="italic"
+         font-weight="400"
+         font-size="19px"
+         id="text31"
+         x="163.92487"
+         y="262">Incidence</text>
+      <text
+         font-family="Arial, Arial_MSFontService, sans-serif"
+         font-weight="700"
+         font-size="19px"
+         id="text32"
+         x="165.42487"
+         y="284">(malsim)</text>
+      <path
+         d="m 140.75784,323.167 c 0,-7.548 6.119,-13.667 13.667,-13.667 h 99.666 c 7.548,0 13.667,6.119 13.667,13.667 v 54.666 c 0,7.548 -6.119,13.667 -13.667,13.667 h -99.666 c -7.548,0 -13.667,-6.119 -13.667,-13.667 z"
+         stroke="#4d5e5f"
+         stroke-width="2.66667"
+         stroke-linecap="round"
+         stroke-linejoin="round"
+         stroke-miterlimit="10"
+         fill="#f1ee80"
+         fill-rule="evenodd"
+         id="path32" />
+      <text
+         font-family="Arial, Arial_MSFontService, sans-serif"
+         font-style="italic"
+         font-weight="400"
+         font-size="19px"
+         id="text33"
+         x="173.25487"
+         y="334" />
+      <text
+         font-family="Arial, Arial_MSFontService, sans-serif"
+         font-style="italic"
+         font-weight="400"
+         font-size="19px"
+         id="text34"
+         x="187.67975"
+         y="344.37109">Not</text>
+      <text
+         font-family="Arial, Arial_MSFontService, sans-serif"
+         font-style="italic"
+         font-weight="400"
+         font-size="19px"
+         id="text36"
+         x="172.75487"
+         y="368.62891">severe</text>
+      <path
+         d="m 114.07284,297.779 24.971,45.511 c 0.399,0.726 0.133,1.638 -0.593,2.037 -0.727,0.398 -1.639,0.133 -2.037,-0.594 l -24.971,-45.511 c -0.399,-0.727 -0.133,-1.639 0.594,-2.037 0.726,-0.399 1.638,-0.133 2.036,0.594 z m 26.88,42.753 0.384,10.055 -8.275,-5.726 z"
+         id="path37" />
+      <path
+         d="m 465.5,337.167 c 0,-7.548 6.119,-13.667 13.667,-13.667 h 95.666 c 7.548,0 13.667,6.119 13.667,13.667 v 54.666 c 0,7.548 -6.119,13.667 -13.667,13.667 h -95.666 c -7.548,0 -13.667,-6.119 -13.667,-13.667 z"
+         stroke="#4d5e5f"
+         stroke-width="2.66667"
+         stroke-linecap="round"
+         stroke-linejoin="round"
+         stroke-miterlimit="10"
+         fill="#92d050"
+         fill-rule="evenodd"
+         id="path38" />
+      <text
+         font-family="Arial, Arial_MSFontService, sans-serif"
+         font-style="italic"
+         font-weight="400"
+         font-size="19px"
+         transform="translate(491.951,371)"
+         id="text38">Recover</text>
+      <text
+         font-family="Verdana, Verdana_MSFontService, sans-serif"
+         font-style="italic"
+         font-weight="400"
+         font-size="16px"
+         transform="translate(474.252,313)"
+         id="text39">1</text>
+      <text
+         font-family="Verdana, Verdana_MSFontService, sans-serif"
+         font-style="italic"
+         font-weight="400"
+         font-size="16px"
+         transform="translate(484.418,313)"
+         id="text40">-</text>
+      <text
+         font-family="Verdana, Verdana_MSFontService, sans-serif"
+         font-style="italic"
+         font-weight="400"
+         font-size="16px"
+         transform="translate(491.752,313)"
+         id="text41">ν</text>
+      <path
+         d="m 338.5,265.5 c 0,-3.314 2.686,-6 6,-6 h 131 c 3.314,0 6,2.686 6,6 v 24 c 0,3.314 -2.686,6 -6,6 h -131 c -3.314,0 -6,-2.686 -6,-6 z"
+         stroke="#4d5e5f"
+         stroke-width="2.66667"
+         stroke-linecap="round"
+         stroke-linejoin="round"
+         stroke-miterlimit="10"
+         fill="#f1ee80"
+         fill-rule="evenodd"
+         id="path41" />
+      <text
+         font-family="Arial, Arial_MSFontService, sans-serif"
+         font-style="italic"
+         font-weight="400"
+         font-size="19px"
+         transform="translate(378.228,284)"
+         id="text42">Treated</text>
+      <path
+         d="m 338.5,219.5 c 0,-3.314 2.686,-6 6,-6 h 131 c 3.314,0 6,2.686 6,6 v 24 c 0,3.314 -2.686,6 -6,6 h -131 c -3.314,0 -6,-2.686 -6,-6 z"
+         stroke="#4d5e5f"
+         stroke-width="2.66667"
+         stroke-linecap="round"
+         stroke-linejoin="round"
+         stroke-miterlimit="10"
+         fill="#f1ee80"
+         fill-rule="evenodd"
+         id="path42" />
+      <text
+         font-family="Arial, Arial_MSFontService, sans-serif"
+         font-style="italic"
+         font-weight="400"
+         font-size="19px"
+         transform="translate(361.145,238)"
+         id="text43">Not Treated</text>
+      <path
+         d="m 271.6167,256.23732 58.84867,-20.21642 c 1.0162,-0.3491 1.45713,-1.2411 0.98494,-1.9924 -0.47218,-0.7513 -1.67868,-1.0773 -2.69487,-0.7282 l -58.84861,20.21638 c -1.01616,0.34909 -1.45718,1.24111 -0.985,1.9924 0.47216,0.75128 1.67869,1.07733 2.69487,0.72824 z m 58.71855,-16.86372 8.47485,-7.8734 -13.60437,-0.2885 z"
+         id="path43"
+         style="stroke-width:1.163" />
+      <path
+         d="m 272.67178,254.129 57.82537,19.284 c 1.00866,0.336 1.46243,1.222 1.01532,1.979 -0.44712,0.757 -1.62611,1.099 -2.63345,0.763 l -57.82537,-19.284 c -1.00867,-0.336 -1.46243,-1.222 -1.01532,-1.979 0.44711,-0.758 1.62611,-1.099 2.63345,-0.763 z m 57.62044,15.933 8.51778,7.764 -13.37482,0.462 z"
+         id="path44"
+         style="stroke-width:1.15356" />
+      <path
+         d="m 481.5,230 h 98.102 c 0.828,0 1.5,0.672 1.5,1.5 0,0.829 -0.672,1.5 -1.5,1.5 H 481.5 c -0.828,0 -1.5,-0.672 -1.5,-1.5 0,-0.828 0.672,-1.5 1.5,-1.5 z m 96.602,-3 9,4.5 -9,4.5 z"
+         id="path45" />
+      <path
+         d="m 481.5,276 h 98.102 c 0.828,0 1.5,0.672 1.5,1.5 0,0.829 -0.672,1.5 -1.5,1.5 H 481.5 c -0.828,0 -1.5,-0.672 -1.5,-1.5 0,-0.828 0.672,-1.5 1.5,-1.5 z m 96.602,-3 9,4.5 -9,4.5 z"
+         id="path46" />
+      <path
+         d="m 482.49,276.373 44.692,39.255 c 0.623,0.547 0.684,1.494 0.138,2.117 -0.547,0.622 -1.495,0.684 -2.117,0.137 L 480.51,278.627 c -0.622,-0.547 -0.684,-1.494 -0.137,-2.117 0.547,-0.622 1.495,-0.684 2.117,-0.137 z m 45.545,36.011 3.793,9.32 -9.732,-2.558 z"
+         id="path47" />
+      <path
+         d="m 269.52438,349.005 187.70126,14.056 c 0.91526,0.069 1.59561,0.794 1.51915,1.619 -0.0754,0.826 -0.87869,1.44 -1.79395,1.371 L 269.24958,351.995 c -0.91526,-0.069 -1.5945,-0.793 -1.51915,-1.619 0.0764,-0.826 0.8798,-1.439 1.79395,-1.371 z m 186.32061,10.943 9.52601,5.229 -10.35041,3.74 z"
+         id="path48"
+         style="stroke-width:1.05265" />
+      <text
+         font-family="Verdana, Verdana_MSFontService, sans-serif"
+         font-style="italic"
+         font-weight="400"
+         font-size="16px"
+         transform="translate(771.205,375)"
+         id="text48">1</text>
+      <text
+         font-family="Verdana, Verdana_MSFontService, sans-serif"
+         font-style="italic"
+         font-weight="400"
+         font-size="16px"
+         transform="translate(781.372,375)"
+         id="text49">-</text>
+      <text
+         font-family="Verdana, Verdana_MSFontService, sans-serif"
+         font-style="italic"
+         font-weight="400"
+         font-size="16px"
+         transform="translate(788.705,375)"
+         id="text50">ρ</text>
+    </g>
+  </g>
+</svg>

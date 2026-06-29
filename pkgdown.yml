@@ -1,5 +1,7 @@
-pandoc: 3.1.11
-pkgdown: 2.1.1
+pandoc: 3.8.3
+pkgdown: 2.2.0
 pkgdown_sha: ~
-articles: {}
-last_built: 2024-10-14T12:31Z
+articles:
+  analysing_malaria_output: analysing_malaria_output.html
+  severe-mortality: severe-mortality.html
+last_built: 2026-06-29T07:06Z
