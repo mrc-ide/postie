@@ -20,6 +20,40 @@ test_that("get rates input checks work", {
   )
 })
 
+test_that("missing ft_sev is inferred as 0.8 with a warning", {
+  x <- data.frame(
+    timestep = 1,
+    ft = 0.5,
+    n_inc_clinical_0_36500 = 10,
+    n_inc_severe_0_36500 = 1,
+    n_age_0_36500 = 1000
+  )
+
+  expect_warning(
+    get_rates(x),
+    "required column `ft_sev`.*assuming ft_sev = 0.8"
+  )
+})
+
+test_that("mismatched clinical and severe age groups error", {
+  # two clinical age groups but only one severe age group
+  x <- data.frame(
+    timestep = 1,
+    ft = 0.5,
+    ft_sev = 0.8,
+    n_inc_clinical_0_36500 = 10,
+    n_inc_clinical_36500_73000 = 5,
+    n_inc_severe_0_36500 = 1,
+    n_age_0_36500 = 1000,
+    n_age_36500_73000 = 800
+  )
+
+  expect_error(
+    get_rates(x),
+    "The same age_min and age_max must be provided for clinical and severe incidence"
+  )
+})
+
 test_that("missing severe incidence columns are inferred as NA with a warning", {
   # e.g. P. vivax output has no `n_inc_severe_...` columns
   x <- data.frame(
